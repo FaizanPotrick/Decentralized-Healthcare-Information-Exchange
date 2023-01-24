@@ -40,12 +40,12 @@ contract HealthDataExchange {
 
         users[msg.sender] = User(msg.sender, _name, _role, true);
 
-        emit UserRegistered(msg.sender, _name, _role);
+        //emit UserRegistered(msg.sender, _name, _role);
     }
 
     function Uploading(string calldata _fileId, address _owner, string calldata _CID) external{
         bool _forSale = false;
-        fileUpload[_userId][_fileId]=file(_CID,_forSale);
+        fileUpload[_owner][_fileId]=fileOwner(_CID,_forSale);
     }
 
     function fileForSale(string calldata _fileId)external{
