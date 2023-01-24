@@ -1,8 +1,8 @@
-
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.4.22 <0.9.0;
 
 contract HealthDataExchange {
-    // Enumeration for user role
+ // Enumeration for user role
     enum Role {
         Doctor,
         Patient,
@@ -18,18 +18,21 @@ contract HealthDataExchange {
     }
 
     struct fileOwner{
-        address owner;
-        string file_ID;
-        string file_CID;
+        string CID;
+        bool forSale;
     }
 
+    mapping (address => mapping (string=> fileOwner)) fileUpload;
+
+    mapping (address => mapping( string => string)) fileBought;
+
     // Mapping to store user information
-    mapping(address => User) public users;
+    mapping(address => User) users;
 
     // mapping(address => string) public fileOwner;
 
     // Event to notify registration
-    event UserRegistered(address userAddress, string name, Role role);
+    //event UserRegistered(address userAddress, string name, Role role);
 
     // Function to register a user
     function registerUser(string memory _name, Role _role) public {
@@ -40,12 +43,26 @@ contract HealthDataExchange {
         emit UserRegistered(msg.sender, _name, _role);
     }
 
-    // function upload(address _owner,string calldata _file_CID) external{
-    //     //
-    //     fileOwner[_owner]=_file_CID;
-    // }
+    function Uploading(string calldata _fileId, address _owner, string calldata _CID) external{
+        bool _forSale = false;
+        fileUpload[_userId][_fileId]=file(_CID,_forSale);
+    }
 
+    function fileForSale(string calldata _fileId)external{
+        bool _forSale = true;
+        fileUpload[msg.sender][_fileId].forSale=_forSale;
+    }
 
+    function fileNotForSale(string calldata _fileId)external{
+        bool _forSale = false;
+        fileUpload[msg.sender][_fileId].forSale=_forSale;
+    }
+
+    function sell(address _owner, string calldata _fileId) external{
+        require(fileUpload[_owner][_fileId].forSale == true,"Not For Sale");
+        string memory _CID = fileUpload[_owner][_fileId].CID;
+        fileBought[msg.sender][_fileId]=_CID;
+    }
 
     function getUserdetails (address _user) public view returns (address,string memory ,Role,bool) {
         
@@ -56,21 +73,14 @@ contract HealthDataExchange {
        return(userAddress, name, role, isRegistered);
     }
 
-    
-     
-
-
-
-    // Function to check if a user is authorized for a specific role
-    function isAuthorized(address _user, Role _role) public view returns (bool) {
-        return users[_user].role == _role && users[_user].isRegistered;
+    function getFileForOwner(string calldata _fileId) public view returns(string memory){
+        string memory CID = fileUpload[msg.sender][_fileId].CID;
+        return(CID);
     }
 
-    // Function to update user role
-    function updateRole(address _user, Role _role) public {
-        require(msg.sender == _user || msg.sender == address(this), "Unauthorized access.");
-        users[_user].role = _role;
+    function getFileForBuyer(string calldata _fileId) public view returns(string memory){
+        string memory CID = fileBought[msg.sender][_fileId];
+        return(CID);
     }
-
 
 }
