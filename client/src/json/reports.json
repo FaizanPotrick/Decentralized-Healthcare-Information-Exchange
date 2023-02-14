@@ -1,0 +1,182 @@
+[
+    {
+        "report_name": "XYZ",
+        "patient_name": "John",
+        "age": 42,
+        "disease": "Dengue, Diphtheria",
+        "report_cost": 1000,
+        "report_type": "pdf",
+        "severity": "High"
+    },
+    {
+        "report_name": "ABC",
+        "patient_name": "Jeery",
+        "age": 32,
+        "disease": "Colds and Flu",
+        "report_cost": 2000,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "DEF",
+        "patient_name": "Tommy",
+        "age": 72,
+        "disease": "Chickenpox, Infectious mononucleosis",
+        "report_cost": 500,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "GHI",
+        "patient_name": "Christina",
+        "age": 52,
+        "disease": "Influenza ",
+        "report_cost": 800,
+        "report_type": "pdf",
+        "severity": "High"
+    },
+    {
+        "report_name": "IJK",
+        "patient_name": "Rovina",
+        "age": 42,
+        "disease": "Meningitis",
+        "report_cost": 450,
+        "report_type": "pdf",
+        "severity": "High"
+    },
+    {
+        "report_name": "LMN",
+        "patient_name": "Mary",
+        "age": 41,
+        "disease": "Tuberculosis",
+        "report_cost": 750,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "OPQ",
+        "patient_name": "James",
+        "age": 36,
+        "disease": "Viral hepatitis",
+        "report_cost": 630,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "RST",
+        "patient_name": "Sophia",
+        "age": 73,
+        "disease": "Whooping cough",
+        "report_cost": 900,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "UVW",
+        "patient_name": "Liam",
+        "age": 80,
+        "disease": "Pneumonia",
+        "report_cost": 500,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "HJA",
+        "patient_name": "William",
+        "age": 60,
+        "disease": "Alzheimer, Asthma",
+        "report_cost": 300,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "LKS",
+        "patient_name": "Benjamin",
+        "age": 100,
+        "disease": "Brain Tumor",
+        "report_cost": 200,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "WFS",
+        "patient_name": "Lucas",
+        "age": 55,
+        "disease": "COVID-19",
+        "report_cost": 600,
+        "report_type": "pdf",
+        "severity": "High"
+    },
+    {
+        "report_name": "IJD",
+        "patient_name": "John",
+        "age": 35,
+        "disease": "Edema",
+        "report_cost": 450,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "PLE",
+        "patient_name": "Max",
+        "age": 44,
+        "disease": "Dyslexia",
+        "report_cost": 310,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "SDF",
+        "patient_name": "Nicholas",
+        "age": 23,
+        "disease": "Jaundice",
+        "report_cost": 470,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "JGN",
+        "patient_name": "Joseph",
+        "age": 82,
+        "disease": "Malaria",
+        "report_cost": 850,
+        "report_type": "pdf",
+        "severity": "Low"
+    },
+    {
+        "report_name": "QAL",
+        "patient_name": "Levi",
+        "age": 96,
+        "disease": "Migrane",
+        "report_cost": 760,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "JRD",
+        "patient_name": "Mateo",
+        "age": 54,
+        "disease": "Moneypoc",
+        "report_cost": 630,
+        "report_type": "pdf",
+        "severity": "High"
+    },
+    {
+        "report_name": "QPL",
+        "patient_name": "Mason ",
+        "age": 47,
+        "disease": "Obesity",
+        "report_cost": 240,
+        "report_type": "pdf",
+        "severity": "Medium"
+    },
+    {
+        "report_name": "THS",
+        "patient_name": "Michael",
+        "age": 50,
+        "disease": "Rabies",
+        "report_cost": 760,
+        "report_type": "pdf",
+        "severity": "High"
+    }
+]
