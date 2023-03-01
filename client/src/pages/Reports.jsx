@@ -1,65 +1,46 @@
 import React, { useState } from "react";
 import ReportCard from "../components/ReportCard";
 import reportsJSON from "../json/reports.json";
+import Cart from "../components/Cart";
+import Header from "../components/Header";
 
 const Reports = () => {
   const [reports, setReports] = useState(reportsJSON);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex justify-center items-center flex-col mx-2 md:mx-5 lg:mx-8">
-      <div className="relative flex justify-center items-center w-full my-5">
-        <input
-          type="search"
-          className="w-full p-3 md:p-3.5 text-xs md:text-sm text-[#00553a]/50 border-2 border-[#0e8f66]/50 bg-[#0e8f66]/[0.02] rounded-xl dark:placeholder-[#00553a]/50 font-medium"
-          placeholder="Search for Reports ..."
-          onChange={(e) => setSearchQuery(e.target.value)}
-          value={searchQuery}
-        />
-        <button
-          className="text-white absolute right-2.5 bg-[#0e8f66]/80 hover:bg-[#0e8f66] duration-300 focus:outline-none font-semibold rounded-xl text-sm md:text-base px-5 py-1.5"
-          onClick={() => {
-            setReports(
-              reportsJSON.filter((report) => {
-                return (
-                  report.report_name
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  report.patient_name
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  report.disease
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  report.report_type
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  report.severity
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase())
-                );
-              })
-            );
-          }}
-        >
-          Search
-        </button>
+    <>
+      <Header setOpen={setOpen} setReports={setReports} />
+      <div className="flex justify-center items-center flex-col mx-2 md:mx-5 lg:mx-8">
+        <div className="flex justify-around items-center w-full mb-5">
+          <div className="text-3xl font-semibold">Exchange</div>
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            className="w-8 h-8 text-[#00553a]/50 dark:text-[#00553a]/50 hover:text-[#00553a]/100 dark:hover:text-[#00553a]/100 transition-colors duration-200 ease-in-out cursor-pointer"
+          >
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"></path>
+          </svg>
+        </div>
+        <div className="flex justify-center flex-wrap gap-4 w-full">
+          {reports.map((report) => (
+            <ReportCard
+              key={report.disease}
+              report_name={report.report_name}
+              patient_name={report.patient_name}
+              age={report.age}
+              disease={report.disease}
+              report_cost={report.report_cost}
+              report_type={report.report_type}
+              severity={report.severity}
+            />
+          ))}
+        </div>
+        <Cart open={open} setOpen={setOpen} />
       </div>
-      <div className="flex justify-center flex-wrap gap-4 w-full">
-        {reports.map((report) => (
-          <ReportCard
-            key={report.disease}
-            report_name={report.report_name}
-            patient_name={report.patient_name}
-            age={report.age}
-            disease={report.disease}
-            report_cost={report.report_cost}
-            report_type={report.report_type}
-            severity={report.severity}
-          />
-        ))}
-      </div>
-    </div>
+    </>
   );
 };
 
