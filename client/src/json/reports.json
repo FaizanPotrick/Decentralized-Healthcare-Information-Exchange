@@ -6,6 +6,7 @@
         "disease": "Dengue, Diphtheria",
         "report_cost": 1000,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "High"
     },
     {
@@ -15,6 +16,7 @@
         "disease": "Colds and Flu",
         "report_cost": 2000,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "Medium"
     },
     {
@@ -24,6 +26,7 @@
         "disease": "Chickenpox, Infectious mononucleosis",
         "report_cost": 500,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Low"
     },
     {
@@ -33,6 +36,7 @@
         "disease": "Influenza ",
         "report_cost": 800,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "High"
     },
     {
@@ -42,6 +46,7 @@
         "disease": "Meningitis",
         "report_cost": 450,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "High"
     },
     {
@@ -51,6 +56,7 @@
         "disease": "Tuberculosis",
         "report_cost": 750,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Low"
     },
     {
@@ -60,6 +66,7 @@
         "disease": "Viral hepatitis",
         "report_cost": 630,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "Low"
     },
     {
@@ -69,6 +76,7 @@
         "disease": "Whooping cough",
         "report_cost": 900,
         "report_type": "pdf",
+        "image": "checkup.png",
         "severity": "Low"
     },
     {
@@ -78,6 +86,7 @@
         "disease": "Pneumonia",
         "report_cost": 500,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Medium"
     },
     {
@@ -87,6 +96,7 @@
         "disease": "Alzheimer, Asthma",
         "report_cost": 300,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "Medium"
     },
     {
@@ -96,6 +106,7 @@
         "disease": "Brain Tumor",
         "report_cost": 200,
         "report_type": "pdf",
+        "image": "checkup.png",
         "severity": "Medium"
     },
     {
@@ -105,6 +116,7 @@
         "disease": "COVID-19",
         "report_cost": 600,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "High"
     },
     {
@@ -114,6 +126,7 @@
         "disease": "Edema",
         "report_cost": 450,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Medium"
     },
     {
@@ -123,6 +136,7 @@
         "disease": "Dyslexia",
         "report_cost": 310,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Medium"
     },
     {
@@ -132,6 +146,7 @@
         "disease": "Jaundice",
         "report_cost": 470,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "Low"
     },
     {
@@ -141,6 +156,7 @@
         "disease": "Malaria",
         "report_cost": 850,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Low"
     },
     {
@@ -150,6 +166,7 @@
         "disease": "Migrane",
         "report_cost": 760,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "Medium"
     },
     {
@@ -159,6 +176,7 @@
         "disease": "Moneypoc",
         "report_cost": 630,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "High"
     },
     {
@@ -168,6 +186,7 @@
         "disease": "Obesity",
         "report_cost": 240,
         "report_type": "pdf",
+        "image": "diagnostic.png",
         "severity": "Medium"
     },
     {
@@ -177,6 +196,7 @@
         "disease": "Rabies",
         "report_cost": 760,
         "report_type": "pdf",
+        "image": "x-ray.png",
         "severity": "High"
     }
 ]

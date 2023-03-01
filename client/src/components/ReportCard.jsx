@@ -7,6 +7,7 @@ const ReportCard = ({
   disease,
   report_cost,
   report_type,
+  image,
   severity,
 }) => {
   return (
@@ -23,7 +24,7 @@ const ReportCard = ({
             {patient_name} - {age}
           </div>
         </div>
-        <img className="rounded-t-lg w-20 h-20" src="x-ray.png" alt="product" />
+        <img className="rounded-t-lg w-20 h-20" src={image} alt="product" />
       </div>
       <div className="flex gap-2 my-2 md:my-2.5 font-semibold">
         <div className="bg-green-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-green-700">

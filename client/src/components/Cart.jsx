@@ -60,7 +60,7 @@ const Cart = ({ open, setOpen }) => {
                               <li key={product.disease} className="flex py-4">
                                 <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
                                   <img
-                                    src="x-ray.png"
+                                    src={product.image}
                                     alt="product"
                                     className="h-full w-full object-cover object-center"
                                   />

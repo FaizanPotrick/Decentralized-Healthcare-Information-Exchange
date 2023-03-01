@@ -34,6 +34,7 @@ const Reports = () => {
               disease={report.disease}
               report_cost={report.report_cost}
               report_type={report.report_type}
+              image={report.image}
               severity={report.severity}
             />
           ))}
