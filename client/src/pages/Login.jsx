@@ -1,22 +1,49 @@
-import { Button } from "@windmill/react-ui";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { StateContext } from "../context/StateContext";
 import ImageLight from "../assets/img/login-image.png";
+import { Button } from "@windmill/react-ui";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
+  const { setIsLogin, isLogin, setAlert, setIsLoading } =
+    useContext(StateContext);
   const [login, setLogin] = useState({
     email_address: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isLogin) {
+      window.location.href = "/app";
+    }
+  }, [setIsLogin]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(login);
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post("/api/login", login);
+      console.log(data);
+      setLogin({
+        email_address: "",
+        password: "",
+      });
+      setIsLogin(true);
+    } catch (error) {
+      console.log(error);
+      setAlert({
+        isAlert: true,
+        type: error.response.data.type,
+        message: error.response.data.message,
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
