@@ -1,13 +1,16 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import StateProvider from "./context/StateContext";
+import { CookiesProvider } from "react-cookie";
+import { Windmill } from "@windmill/react-ui";
+import Loading from "./components/Loading";
+import Dashboard from "./pages/Dashboard";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import "./assets/css/tailwind.output.css";
+import Alert from "./components/Alert";
 import Landing from "./pages/Landing";
 import Reports from "./pages/Reports";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import { Windmill } from "@windmill/react-ui";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -31,15 +34,15 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Suspense
-      fallback={
-        <div className="w-full h-screen p-6 text-lg font-medium text-gray-600">
-          Loading...
-        </div>
-      }
-    >
+    <Suspense fallback={<Loading pageLoading={true} />}>
       <Windmill usePreferences>
-        <RouterProvider router={router} />
+        <CookiesProvider>
+          <StateProvider>
+            <RouterProvider router={router} />
+            <Loading />
+            <Alert />
+          </StateProvider>
+        </CookiesProvider>
       </Windmill>
     </Suspense>
   </React.StrictMode>
