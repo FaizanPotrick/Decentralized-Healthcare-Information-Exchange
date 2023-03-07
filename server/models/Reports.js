@@ -2,11 +2,11 @@ const { Schema, connection } = require("mongoose");
 
 const Report = new Schema(
   {
-    user_id: {
+    patient_id: {
       type: Schema.Types.ObjectId,
       required: [true, "Please add a User ID"],
     },
-    report_name: {
+    name: {
       type: String,
       trim: true,
       required: [true, "Please add a Report Name"],
@@ -16,7 +16,7 @@ const Report = new Schema(
       trim: true,
       required: [true, "Please add a Description"],
     },
-    report_type: {
+    type: {
       type: String,
       trim: true,
       enum: ["pdf", "image"],
@@ -27,7 +27,7 @@ const Report = new Schema(
       required: [true, "Please add a Report Type"],
     },
     disease: {
-      type: Array,
+      type: String,
       trim: true,
       match: [
         /^[a-zA-Z0-9]+$/,
@@ -45,9 +45,12 @@ const Report = new Schema(
       ],
       required: [true, "Please add a Criticality"],
     },
+    date: {
+      type: Date,
+      required: [true, "Please add a Date"],
+    },
     price: {
       type: Number,
-      required: [true, "Please add a Price"],
     },
   },
   {

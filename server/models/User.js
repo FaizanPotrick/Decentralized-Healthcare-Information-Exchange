@@ -27,7 +27,6 @@ const User = new Schema(
     registration_number: {
       type: String,
       trim: true,
-      required: [true, "Please add an Registration Number"],
     },
     wallet_address: {
       type: String,
@@ -37,7 +36,6 @@ const User = new Schema(
     gst_number: {
       type: String,
       trim: true,
-      required: [true, "Please add an GST Number"],
     },
     password: {
       type: String,
