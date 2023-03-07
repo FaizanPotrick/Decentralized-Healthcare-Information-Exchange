@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StateContext } from "../context/StateContext";
 import ImageLight from "../assets/img/login-image.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -34,6 +34,7 @@ const Login = () => {
         password: "",
       });
       setIsLogin(true);
+      navigate("/dashboard");
     } catch (error) {
       setAlert({
         isAlert: true,
@@ -82,13 +83,6 @@ const Login = () => {
             <button type="submit" className="input_button">
               Login
             </button>
-            <hr className="mt-4 mb-2" />
-            <Link
-              className="text-sm font-medium text-purple-600 hover:underline"
-              to="/register"
-            >
-              Sign Up
-            </Link>
           </form>
         </main>
       </div>
