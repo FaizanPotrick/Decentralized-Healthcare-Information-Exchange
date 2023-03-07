@@ -56,6 +56,16 @@ const Report = () => {
       });
       const CID = `ipfs://${data.IpfsHash}`;
       setRegister({ ...register, cid: CID });
+    } catch (error) {
+      setAlert({
+        isAlert: true,
+        type: "error",
+        message: error.message,
+      });
+      setLoading(false);
+      return;
+    }
+    try {
       await axios.post(`/api/registration/report/${type_of_user}`, register);
       setRegister({
         patient_id: "",
