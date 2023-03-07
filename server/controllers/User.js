@@ -8,8 +8,9 @@ const options = {
 };
 const connect = my_contract.connect(wallet);
 
-const Register = async (req, res) => {
-  const { name, email_address, age, address, password } = req.body;
+const PatientRegister = async (req, res) => {
+  const { name, email_address, type_of_user, wallet_address, password } =
+    req.body;
   try {
     const email_response = await User.findOne({ email_address }).lean();
     if (email_response !== null) {
@@ -20,13 +21,81 @@ const Register = async (req, res) => {
     const response = await User.create({
       name,
       email_address,
-      age,
-      address,
+      type_of_user,
+      wallet_address,
       password,
     });
-    res.status(200).json({
+    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
       type: "success",
-      message: "User Registered Successfully",
+      message: "Registered Successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ type: "error", message: err });
+  }
+};
+
+const DoctorRegister = async (req, res) => {
+  const {
+    name,
+    email_address,
+    type_of_user,
+    registration_number,
+    wallet_address,
+    password,
+  } = req.body;
+  try {
+    const email_response = await User.findOne({ email_address }).lean();
+    if (email_response !== null) {
+      return res
+        .status(400)
+        .json({ type: "error", message: "Email Address already exists" });
+    }
+    const response = await User.create({
+      name,
+      email_address,
+      type_of_user,
+      registration_number,
+      wallet_address,
+      password,
+    });
+    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
+      type: "success",
+      message: "Registered Successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ type: "error", message: err });
+  }
+};
+
+const BuyerRegister = async (req, res) => {
+  const {
+    name,
+    email_address,
+    type_of_user,
+    wallet_address,
+    gst_number,
+    password,
+  } = req.body;
+  try {
+    const email_response = await User.findOne({ email_address }).lean();
+    if (email_response !== null) {
+      return res
+        .status(400)
+        .json({ type: "error", message: "Email Address already exists" });
+    }
+    const response = await User.create({
+      name,
+      email_address,
+      type_of_user,
+      wallet_address,
+      gst_number,
+      password,
+    });
+    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
+      type: "success",
+      message: "Registered Successfully",
     });
   } catch (err) {
     console.error(err);
@@ -66,6 +135,8 @@ const Blockchain_User_Register = async (id, address, name, role) => {
 };
 
 module.exports = {
-  Register,
+  PatientRegister,
+  DoctorRegister,
+  BuyerRegister,
   Login,
 };

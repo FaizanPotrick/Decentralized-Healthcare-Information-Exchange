@@ -11,7 +11,7 @@ app.use(cookieParser);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", require("./routes/User"));
+app.use("/api", require("./routes"));
 
 // User("11", "0xBf75AA7352F1A7E9B4863b5B6F9B3c56629d0Ea9", "sidp", "2");
 // Report("2","11","QmVyvJbRmhnheEwvd4Zns4SoKypwQscPn1mkgRv2aJPriB");

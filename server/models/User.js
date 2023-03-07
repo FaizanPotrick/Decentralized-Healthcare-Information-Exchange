@@ -18,14 +18,26 @@ const User = new Schema(
       required: [true, "Please add an Email Address"],
       unique: true,
     },
-    age: {
-      type: Number,
-      required: [true, "Please add an Age"],
-    },
-    address: {
+    type_of_user: {
       type: String,
       trim: true,
-      required: [true, "Please add an Address"],
+      enum: ["Doctor", "Patient", "Buyer"],
+      required: [true, "Please add a Type of User"],
+    },
+    registration_number: {
+      type: String,
+      trim: true,
+      required: [true, "Please add an Registration Number"],
+    },
+    wallet_address: {
+      type: String,
+      trim: true,
+      required: [true, "Please add an Wallet Address"],
+    },
+    gst_number: {
+      type: String,
+      trim: true,
+      required: [true, "Please add an GST Number"],
     },
     password: {
       type: String,
