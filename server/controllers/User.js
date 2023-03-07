@@ -48,7 +48,7 @@ const Login = async (req, res) => {
     }
     res.status(200).json({
       type: "success",
-      message: "User Registered Successfully",
+      message: "Logged In Successfully",
     });
   } catch (err) {
     console.error(err);
