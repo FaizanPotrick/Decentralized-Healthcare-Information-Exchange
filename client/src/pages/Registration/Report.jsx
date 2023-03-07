@@ -18,8 +18,9 @@ const Report = () => {
     criticality: "",
     date: "",
     price: "",
-    report: {},
+    cid: "",
   });
+  const [reportFile, setReportFile] = useState({});
 
   useEffect(() => {
     if (!isLogin) {
@@ -33,26 +34,29 @@ const Report = () => {
   };
 
   const onFileChange = (e) => {
-    const { name, files } = e.target;
-    setRegister({ ...register, [name]: files[0] });
+    const { files } = e.target;
+    setReportFile(files[0]);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
-    formData.append("patient_id", register.patient_id);
-    formData.append("name", register.name);
-    formData.append("description", register.description);
-    formData.append("age", register.age);
-    formData.append("type", register.type);
-    formData.append("disease", register.disease);
-    formData.append("criticality", register.criticality);
-    formData.append("date", register.date);
-    formData.append("price", register.price);
-    formData.append("report", register.report);
+    formData.append("file", reportFile);
     try {
-      await axios.post(`/api/registration/report/${type_of_user}`, formData);
+      const { data } = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          pinata_api_key: `7dc1da8eee1bc6e76277`,
+          pinata_secret_api_key: `093362d6d31dc0138bf440a6e2f97055c9516b60b23c09461022817fdada8dd6`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const CID = `ipfs://${data.IpfsHash}`;
+      setRegister({ ...register, cid: CID });
+      await axios.post(`/api/registration/report/${type_of_user}`, register);
       setRegister({
         patient_id: "",
         name: "",
@@ -63,8 +67,8 @@ const Report = () => {
         criticality: "",
         date: "",
         price: "",
-        report: {},
       });
+      setReportFile({});
       setIsLogin(true);
       navigate("/dashboard");
     } catch (error) {

@@ -3,11 +3,26 @@ import InfoCard from "../components/InfoCard";
 import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from "../icons";
 import Header from "../components/Header";
 import Table from "../components/Table";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <div className="container mx-auto">
       <Header />
+      <div className="flex justify-end">
+        <Link
+          className="text-purple-600 hover:underline ml-1"
+          to="/registration/report"
+        >
+          Upload Report
+        </Link>
+        {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
+          Go to Exchange
+        </Link> */}
+        {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
+          Redeem
+        </Link> */}
+      </div>
       <div className="flex items-center gap-6 my-6">
         <InfoCard title="Available Reports" value="60" icon={PeopleIcon} />
         <InfoCard title="For Sale" value="5" icon={MoneyIcon} />

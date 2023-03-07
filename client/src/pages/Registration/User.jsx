@@ -12,7 +12,6 @@ const User = ({ type_of_user }) => {
     email_address: "",
     type_of_user: type_of_user,
     registration_number: "",
-    wallet_address: "",
     gst_number: "",
     password: "",
     cPassword: "",
@@ -49,7 +48,6 @@ const User = ({ type_of_user }) => {
         email_address: "",
         type_of_user: "",
         registration_number: "",
-        wallet_address: "",
         gst_number: "",
         password: "",
         cPassword: "",
@@ -107,17 +105,6 @@ const User = ({ type_of_user }) => {
                   />
                 </div>
               )}
-              <div>
-                <label className="input_label">Wallet Address*</label>
-                <input
-                  className="input_field"
-                  type="text"
-                  name="wallet_address"
-                  value={register.wallet_address}
-                  onChange={onChange}
-                  required
-                />
-              </div>
               {type_of_user === "buyer" && (
                 <div>
                   <label className="input_label">GST Number</label>
