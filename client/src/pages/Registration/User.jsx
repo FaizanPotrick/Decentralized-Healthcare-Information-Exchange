@@ -43,10 +43,7 @@ const User = ({ type_of_user }) => {
       return;
     }
     try {
-      const { data } = await axios.post(
-        `/api/registration/${type_of_user}`,
-        register
-      );
+      await axios.post(`/api/registration/${type_of_user}`, register);
       setRegister({
         name: "",
         email_address: "",
