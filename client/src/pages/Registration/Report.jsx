@@ -49,8 +49,9 @@ const Report = () => {
         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
         data: formData,
         headers: {
-          pinata_api_key: `7dc1da8eee1bc6e76277`,
-          pinata_secret_api_key: `093362d6d31dc0138bf440a6e2f97055c9516b60b23c09461022817fdada8dd6`,
+          pinata_api_key: "d65df4e210a2c9065126",
+          pinata_secret_api_key:
+            "3cbee27993f99c27396280dcdbb94c6d9a54cd626d42470af0aeee135c013105",
           "Content-Type": "multipart/form-data",
         },
       });
