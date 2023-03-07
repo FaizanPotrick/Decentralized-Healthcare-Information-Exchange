@@ -1,6 +1,7 @@
 const { ethers } = require("ethers");
 const { wallet, my_contract } = require("../wallet");
 const Report = require("../models/Report");
+const Exchange = require("../models/Exchange");
 
 const options = {
   gasLimit: 3000000,
@@ -68,6 +69,71 @@ const DoctorReportRegister = async (req, res) => {
   }
 };
 
+const UpdatePrice = async (req, res) => {
+  const { price } = req.body;
+  const { report_id } = req.params;
+  try {
+    await Report.findByIdAndUpdate(report_id, { price });
+    res.json({
+      type: "success",
+      message: "Price Updated Successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
+const GetAllReports = async (req, res) => {
+  try {
+    const response = await Report.find();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
+const GetPatientReports = async (req, res) => {
+  const { user_id } = req.cookies;
+  try {
+    const response = await Report.find({
+      patient_id: user_id,
+    }).lean();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
+const GetBuyerReports = async (req, res) => {
+  const { user_id } = req.cookies;
+  try {
+    const patient_ids = await Exchange.find({
+      buyer_id: user_id,
+    }).lean();
+    const response = await Report.find({
+      patient_id: patient_ids,
+    }).lean();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
+const GetReport = async (req, res) => {
+  const { report_id } = req.params;
+  try {
+    const response = await Report.findById(report_id).lean();
+    res.send(response);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
 const Register = async (id, user_id, CID) => {
   try {
     const tx = await connect.Uploading(id, user_id, CID, options);
@@ -125,10 +191,9 @@ const Buyer_Report = async (id, owner) => {
 module.exports = {
   PatientReportRegister,
   DoctorReportRegister,
-  Register,
-  ReportForSale,
-  ReportNotForSale,
-  SellReport,
-  Owner_Report,
-  Buyer_Report,
+  UpdatePrice,
+  GetAllReports,
+  GetPatientReports,
+  GetBuyerReports,
+  GetReport,
 };
