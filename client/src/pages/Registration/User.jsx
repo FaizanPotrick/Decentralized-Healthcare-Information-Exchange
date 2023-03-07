@@ -5,7 +5,7 @@ import axios from "axios";
 
 const User = ({ type_of_user }) => {
   const navigate = useNavigate();
-  const { setIsLogin, isLogin, setAlert, setIsLoading } =
+  const { setIsLogin, isLogin, setAlert, setLoading } =
     useContext(StateContext);
   const [register, setRegister] = useState({
     name: "",
@@ -31,7 +31,7 @@ const User = ({ type_of_user }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
     const { password, cPassword } = register;
     if (password !== cPassword) {
       setAlert({
@@ -39,7 +39,7 @@ const User = ({ type_of_user }) => {
         type: "error",
         message: "Password do not match",
       });
-      setIsLoading(false);
+      setLoading(false);
       return;
     }
     try {
@@ -63,7 +63,7 @@ const User = ({ type_of_user }) => {
         message: error.response.data.message,
       });
     }
-    setIsLoading(false);
+    setLoading(false);
   };
   return (
     <div className="flex items-center justify-center min-h-screen p-6 bg-gray-50">
@@ -139,6 +139,7 @@ const User = ({ type_of_user }) => {
                   name="password"
                   value={register.password}
                   onChange={onChange}
+                  autoComplete="off"
                   required
                 />
               </div>
@@ -150,6 +151,7 @@ const User = ({ type_of_user }) => {
                   name="cPassword"
                   value={register.cPassword}
                   onChange={onChange}
+                  autoComplete="off"
                   required
                 />
               </div>

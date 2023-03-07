@@ -21,7 +21,7 @@ const User = new Schema(
     type_of_user: {
       type: String,
       trim: true,
-      enum: ["Doctor", "Patient", "Buyer"],
+      enum: ["doctor", "patient", "buyer"],
       required: [true, "Please add a Type of User"],
     },
     registration_number: {

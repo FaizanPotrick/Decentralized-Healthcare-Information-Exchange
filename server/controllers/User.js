@@ -31,7 +31,7 @@ const PatientRegister = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err });
+    res.status(400).json({ type: "error", message: err.message });
   }
 };
 
@@ -65,7 +65,7 @@ const DoctorRegister = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err });
+    res.status(400).json({ type: "error", message: err.message });
   }
 };
 
@@ -99,7 +99,7 @@ const BuyerRegister = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err });
+    res.status(400).json({ type: "error", message: err.message });
   }
 };
 
@@ -115,13 +115,13 @@ const Login = async (req, res) => {
         .status(400)
         .json({ type: "error", message: "Invalid Credentials" });
     }
-    res.status(200).json({
+    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
       type: "success",
       message: "Logged In Successfully",
     });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err });
+    res.status(400).json({ type: "error", message: err.message });
   }
 };
 

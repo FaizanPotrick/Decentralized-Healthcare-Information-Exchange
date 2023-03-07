@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsLogin, isLogin, setAlert, setIsLoading } =
+  const { setIsLogin, isLogin, setAlert, setLoading } =
     useContext(StateContext);
   const [login, setLogin] = useState({
     email_address: "",
@@ -26,9 +26,9 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
     try {
-      await axios.post("/api/login", login);
+      await axios.put("/api/login", login);
       setLogin({
         email_address: "",
         password: "",
@@ -42,7 +42,7 @@ const Login = () => {
         message: error.response.data.message,
       });
     }
-    setIsLoading(false);
+    setLoading(false);
   };
 
   return (
@@ -77,6 +77,7 @@ const Login = () => {
                 placeholder="********"
                 value={login.password}
                 onChange={onChange}
+                autoComplete="off"
                 required
               />
             </div>
