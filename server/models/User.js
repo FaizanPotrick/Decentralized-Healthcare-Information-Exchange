@@ -28,11 +28,6 @@ const User = new Schema(
       type: String,
       trim: true,
     },
-    wallet_address: {
-      type: String,
-      trim: true,
-      required: [true, "Please add an Wallet Address"],
-    },
     gst_number: {
       type: String,
       trim: true,

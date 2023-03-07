@@ -10,12 +10,20 @@ const options = {
 const connect = my_contract.connect(wallet);
 
 const PatientReportRegister = async (req, res) => {
-  const { name, description, age, type, disease, criticality, date, price } =
-    req.body;
+  const {
+    name,
+    description,
+    age,
+    type,
+    disease,
+    criticality,
+    date,
+    price,
+    cid,
+  } = req.body;
   const user_id = req.cookies.user_id;
-  const { report } = req.files;
   try {
-    await Report.create({
+    const response = await Report.create({
       patient_id: user_id,
       name,
       description,
@@ -26,6 +34,8 @@ const PatientReportRegister = async (req, res) => {
       date,
       price,
     });
+    await BlockChain_Report_Upload(response._id, user_id, cid);
+    await Blockchain_ReportForSale(response._id, user_id);
     res.json({
       type: "success",
       message: "Report Uploaded Successfully",
@@ -46,10 +56,10 @@ const DoctorReportRegister = async (req, res) => {
     disease,
     criticality,
     date,
+    cid,
   } = req.body;
-  const { report } = req.files;
   try {
-    await Report.create({
+    const response = await Report.create({
       patient_id,
       name,
       description,
@@ -59,6 +69,7 @@ const DoctorReportRegister = async (req, res) => {
       criticality,
       date,
     });
+    await BlockChain_Report_Upload(response._id, patient_id, cid);
     res.json({
       type: "success",
       message: "Report Uploaded Successfully",
@@ -125,8 +136,29 @@ const GetBuyerReports = async (req, res) => {
 
 const GetReport = async (req, res) => {
   const { report_id } = req.params;
+  const { user_type } = req.cookies;
   try {
     const response = await Report.findById(report_id).lean();
+    if (user_type === "patient") {
+      const user_response = await User.findById(response.patient_id).lean();
+      const blockchain_patient_response = await connect.getFileForOwner(
+        response._id,
+        user_response.name
+      );
+      response.cid = blockchain_patient_response;
+    } else {
+      const exchange_response = await Exchange.findOne({
+        report_id: response._id,
+      }).lean();
+      const user_response = await User.findById(
+        exchange_response.user_id
+      ).lean();
+      const blockchain_buyer_response = await connect.getFileForBuyer(
+        response._id,
+        user_response.name
+      );
+      response.cid = blockchain_buyer_response;
+    }
     res.send(response);
   } catch (err) {
     console.log(err);
@@ -134,7 +166,7 @@ const GetReport = async (req, res) => {
   }
 };
 
-const Register = async (id, user_id, CID) => {
+const BlockChain_Report_Upload = async (id, user_id, CID) => {
   try {
     const tx = await connect.Uploading(id, user_id, CID, options);
     console.log(await tx, "Uploaded Successfully");
@@ -143,7 +175,7 @@ const Register = async (id, user_id, CID) => {
   }
 };
 
-const ReportForSale = async (id, owner) => {
+const Blockchain_ReportForSale = async (id, owner) => {
   try {
     const tx = await connect.fileForSale(id, owner);
     console.log(await tx, "Report for sale");
@@ -152,41 +184,14 @@ const ReportForSale = async (id, owner) => {
   }
 };
 
-const ReportNotForSale = async (td, owner) => {
-  try {
-    const tx = await connect.fileNotForSale(id, owner);
-    console.log(await tx, "Report not for sale");
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const SellReport = async (owner, user_id, report_id) => {
-  try {
-    const tx = await connect.sell(owner, user_id, report_id);
-    console.log(await tx, "Report sold successfully");
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const Owner_Report = async (id, owner) => {
-  try {
-    const response = await connect.getFileForOwner(id, owner);
-    console.log(response);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const Buyer_Report = async (id, owner) => {
-  try {
-    const response = await connect.getFileForBuyer(id, owner);
-    console.log(response);
-  } catch (err) {
-    console.log(err);
-  }
-};
+// const ReportNotForSale = async (td, owner) => {
+//   try {
+//     const tx = await connect.fileNotForSale(id, owner);
+//     console.log(await tx, "Report not for sale");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 module.exports = {
   PatientReportRegister,
