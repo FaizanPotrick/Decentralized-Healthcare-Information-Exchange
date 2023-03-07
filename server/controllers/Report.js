@@ -1,11 +1,72 @@
 const { ethers } = require("ethers");
 const { wallet, my_contract } = require("../wallet");
+const Report = require("../models/Report");
 
 const options = {
   gasLimit: 3000000,
   gasPrice: ethers.BigNumber.from("200000000000"),
 };
 const connect = my_contract.connect(wallet);
+
+const PatientReportRegister = async (req, res) => {
+  const { name, description, age, type, disease, criticality, date, price } =
+    req.body;
+  const user_id = req.cookies.user_id;
+  const { report } = req.files;
+  try {
+    await Report.create({
+      patient_id: user_id,
+      name,
+      description,
+      age,
+      type,
+      disease,
+      criticality,
+      date,
+      price,
+    });
+    res.json({
+      type: "success",
+      message: "Report Uploaded Successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
+
+const DoctorReportRegister = async (req, res) => {
+  const {
+    patient_id,
+    name,
+    description,
+    age,
+    type,
+    disease,
+    criticality,
+    date,
+  } = req.body;
+  const { report } = req.files;
+  try {
+    await Report.create({
+      patient_id,
+      name,
+      description,
+      age,
+      type,
+      disease,
+      criticality,
+      date,
+    });
+    res.json({
+      type: "success",
+      message: "Report Uploaded Successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ type: "error", message: err.message });
+  }
+};
 
 const Register = async (id, user_id, CID) => {
   try {
@@ -62,6 +123,8 @@ const Buyer_Report = async (id, owner) => {
 };
 
 module.exports = {
+  PatientReportRegister,
+  DoctorReportRegister,
   Register,
   ReportForSale,
   ReportNotForSale,

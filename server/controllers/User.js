@@ -115,10 +115,13 @@ const Login = async (req, res) => {
         .status(400)
         .json({ type: "error", message: "Invalid Credentials" });
     }
-    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
-      type: "success",
-      message: "Logged In Successfully",
-    });
+    res
+      .cookie("user_id", response._id)
+      .cookie("user_type", response.type_of_user)
+      .json({
+        type: "success",
+        message: "Logged In Successfully",
+      });
   } catch (err) {
     console.error(err);
     res.status(400).json({ type: "error", message: err.message });

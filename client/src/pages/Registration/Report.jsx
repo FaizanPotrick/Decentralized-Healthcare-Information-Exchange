@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Report = () => {
   const navigate = useNavigate();
-  const { setIsLogin, isLogin, setAlert, setIsLoading } =
+  const { setIsLogin, isLogin, setAlert, setLoading } =
     useContext(StateContext);
   const [type_of_user] = useState("patient");
   const [register, setRegister] = useState({
@@ -18,11 +18,11 @@ const Report = () => {
     criticality: "",
     date: "",
     price: "",
-    report: "",
+    report: {},
   });
 
   useEffect(() => {
-    if (isLogin) {
+    if (!isLogin) {
       navigate(-1);
     }
   }, [setIsLogin]);
@@ -32,21 +32,27 @@ const Report = () => {
     setRegister({ ...register, [name]: value });
   };
 
+  const onFileChange = (e) => {
+    const { name, files } = e.target;
+    setRegister({ ...register, [name]: files[0] });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const { password, cPassword } = register;
-    if (password !== cPassword) {
-      setAlert({
-        isAlert: true,
-        type: "error",
-        message: "Password do not match",
-      });
-      setIsLoading(false);
-      return;
-    }
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("patient_id", register.patient_id);
+    formData.append("name", register.name);
+    formData.append("description", register.description);
+    formData.append("age", register.age);
+    formData.append("type", register.type);
+    formData.append("disease", register.disease);
+    formData.append("criticality", register.criticality);
+    formData.append("date", register.date);
+    formData.append("price", register.price);
+    formData.append("report", register.report);
     try {
-      await axios.post(`/api/registration/report/${type_of_user}`, register);
+      await axios.post(`/api/registration/report/${type_of_user}`, formData);
       setRegister({
         patient_id: "",
         name: "",
@@ -57,7 +63,7 @@ const Report = () => {
         criticality: "",
         date: "",
         price: "",
-        report: "",
+        report: {},
       });
       setIsLogin(true);
       navigate("/dashboard");
@@ -68,7 +74,7 @@ const Report = () => {
         message: error.response.data.message,
       });
     }
-    setIsLoading(false);
+    setLoading(false);
   };
   return (
     <div className="flex items-center justify-center min-h-screen p-6 bg-gray-50">
@@ -160,7 +166,7 @@ const Report = () => {
                 <label className="input_label">Date*</label>
                 <input
                   className="input_field"
-                  type="text"
+                  type="date"
                   name="date"
                   value={register.date}
                   onChange={onChange}
@@ -186,8 +192,7 @@ const Report = () => {
                   className="input_field"
                   type="file"
                   name="report"
-                  value={register.report}
-                  onChange={onChange}
+                  onChange={onFileChange}
                   required
                 />
               </div>
