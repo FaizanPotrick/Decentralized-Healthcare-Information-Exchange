@@ -1,20 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract HealthDataExchange {
-
-     // Enumeration for user role
-    enum Role {
-        Doctor,
-        Patient,
-        Buyer
-    }
-
+contract dhie{
     // Struct to store user information
     struct User {
         string userId;
         string name;
-        Role role;
+        string role;
         bool isRegistered;
     }
     
@@ -30,24 +22,18 @@ contract HealthDataExchange {
     // Mapping to store user information
     mapping(string => User) public users;
 
-    // mapping(address => string) public fileOwner;
-
-    // Event to notify registration
-    event UserRegistered(string userAddress, string name, Role role);
-
     // Function to register a user
-    function registerUser(string memory _userId, string memory _name, Role _role) public {
+    function registerUser(string memory _userId, string memory _name, string memory _role) public {
         require(users[_userId].isRegistered == false, "User already registered.");
 
         users[_userId] = User(_userId, _name, _role, true);
 
-        emit UserRegistered(_userId, _name, _role);
     }
 
-    function getUserdetails (string calldata _user) public view returns (string memory,string memory ,Role,bool) {
+    function getUserdetails (string calldata _user) public view returns (string memory,string memory ,string memory,bool) {
         
         string memory name = users[_user].name;
-        Role role = users[_user].role;
+        string memory role = users[_user].role;
         bool isRegistered=users[_user].isRegistered;
        return(_user, name, role, isRegistered);
     }
