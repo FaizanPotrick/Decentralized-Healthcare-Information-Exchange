@@ -46,11 +46,10 @@ contract HealthDataExchange {
 
     function getUserdetails (string calldata _user) public view returns (string memory,string memory ,Role,bool) {
         
-        string memory userAddress = users[_user].userAddress;
         string memory name = users[_user].name;
         Role role = users[_user].role;
         bool isRegistered=users[_user].isRegistered;
-       return(userAddress, name, role, isRegistered);
+       return(_user, name, role, isRegistered);
     }
 
     function Uploading(string calldata _fileId, string calldata _userId, string calldata _CID) external{
