@@ -33,10 +33,7 @@ const Dashboard = () => {
         <InfoCard title="Available Reports" value="60" icon={PeopleIcon} />
         <InfoCard title="For Sale" value="5" icon={MoneyIcon} />
         <InfoCard title="Sold" value="20" icon={CartIcon} />
-        <InfoCard title="Revenue" value="$64" icon={ChatIcon}  />
-        <button className="btn  bg-purple-500  hover:bg-purple-400 px-2 py-2 text-white items-end justify-end mr-12 rounded-md">
-            Redeem
-        </button>
+        <InfoCard title="Revenue" value="$64" icon={ChatIcon} />
       </div>
       <Table
         head={["Report Name", "Disease", "Date", "Criticality", "Price", ""]}
