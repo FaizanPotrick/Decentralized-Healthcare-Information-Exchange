@@ -11,10 +11,16 @@ const Dashboard = () => {
       <Header />
       <div className="flex justify-end">
         <Link
-          className="text-purple-600 hover:underline ml-1"
+          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
           to="/registration/report"
         >
-          Upload Report
+          Upload Reports
+        </Link>
+        <Link
+          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
+          to="/registration/report"
+        >
+          Go To Exchange
         </Link>
         {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Go to Exchange
@@ -27,7 +33,10 @@ const Dashboard = () => {
         <InfoCard title="Available Reports" value="60" icon={PeopleIcon} />
         <InfoCard title="For Sale" value="5" icon={MoneyIcon} />
         <InfoCard title="Sold" value="20" icon={CartIcon} />
-        <InfoCard title="Revenue" value="$64" icon={ChatIcon} />
+        <InfoCard title="Revenue" value="$64" icon={ChatIcon}  />
+        <button className="btn  bg-purple-500  hover:bg-purple-400 px-2 py-2 text-white items-end justify-end mr-12 rounded-md">
+            Redeem
+        </button>
       </div>
       <Table
         head={["Report Name", "Disease", "Date", "Criticality", "Price", ""]}
