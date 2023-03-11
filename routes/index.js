@@ -15,6 +15,7 @@ const {
   GetReport,
 } = require("../controllers/Report");
 const { PatientReportExchange } = require("../controllers/Exchange");
+const { AddToCart, RemoveFromCart, GetCart } = require("../controllers/Cart");
 const router = express.Router();
 
 router.post("/registration/patient", PatientRegister);
@@ -29,5 +30,9 @@ router.get("/registration/report/patient", GetPatientReports);
 router.get("/registration/report/buyer", GetBuyerReports);
 router.get("/registration/report/:report_id", GetReport);
 router.post("/registration/report/exchange/:report_id", PatientReportExchange);
+
+router.post("/registration/cart/add/:report_id", AddToCart);
+router.post("/registration/cart/remove/:report_id", RemoveFromCart);
+router.get("/registration/cart", GetCart);
 
 module.exports = router;

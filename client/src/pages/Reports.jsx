@@ -6,7 +6,7 @@ import Header from "../components/Header";
 
 const Reports = () => {
   const [reports, setReports] = useState(reportsJSON);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <>

@@ -116,7 +116,7 @@ const Login = async (req, res) => {
 
 const Blockchain_User_Register = async (id, name, role) => {
   try {
-    const tx = await connect.registerUser(id, address, name, role, options);
+    const tx = await connect.registerUser(id, name, role, options);
     console.log(await tx, "Registered Successfully");
   } catch (err) {
     console.log(err);
