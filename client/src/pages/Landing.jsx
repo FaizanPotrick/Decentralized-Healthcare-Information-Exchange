@@ -38,9 +38,12 @@ const Landing = () => {
             Revoltionizing healthcare with secure and transparent data exchange
           </h1>
           <div className="flex w-full md:justify-start justify-center items-end">
-            <button className="inline-flex text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded text-lg">
+            <Link
+              to="/reports"
+              className="inline-flex text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded text-lg"
+            >
               Go To Exchange
-            </button>
+            </Link>
           </div>
         </div>
       </div>

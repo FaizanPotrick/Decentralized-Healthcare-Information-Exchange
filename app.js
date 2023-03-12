@@ -23,5 +23,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(fileupload());
 
 app.use("/api", require("./routes"));
+app.get("/api/logout", (req, res) => {
+  res.clearCookie("user_id").clearCookie("user_type").json({
+    type: "success",
+    message: "Successfully logged out"
+  })
+});
 
 app.listen(process.env.PORT || 8000);

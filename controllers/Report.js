@@ -9,40 +9,56 @@ const options = {
 };
 const connect = my_contract.connect(wallet);
 
+const UploadReport = async (req) => {
+  const { report } = req.files;
+  const formData = new FormData();
+  formData.append("file", report);
+  const { data } = await axios({
+    method: "post",
+    url: process.env.PINATA_URL,
+    data: formData,
+    headers: {
+      pinata_api_key: process.env.PINATA_API_KEY,
+      pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return `ipfs://${data.IpfsHash}`
+};
+
 const PatientReportRegister = async (req, res) => {
   const {
     name,
     description,
-    age,
+    patient_age,
     type,
     disease,
     criticality,
     date,
     price,
-    cid,
   } = req.body;
-  const user_id = req.cookies.user_id;
+  const { user_id } = req.cookies;
+  const report_response = new Report({
+    patient_id: user_id,
+    name,
+    description,
+    patient_age,
+    type,
+    disease,
+    criticality,
+    date,
+    price,
+  });
   try {
-    const response = await Report.create({
-      patient_id: user_id,
-      name,
-      description,
-      age,
-      type,
-      disease,
-      criticality,
-      date,
-      price,
-    });
-    await BlockChain_Report_Upload(response._id, user_id, cid);
-    await Blockchain_ReportForSale(response._id, user_id);
-    res.json({
-      type: "success",
-      message: "Report Uploaded Successfully",
-    });
+    await report_response.validate();
+    const cid = await UploadReport(req);
+    await BlockChain_Report_Upload(report_response._id, user_id, cid);
+    await Blockchain_ReportForSale(report_response._id, user_id);
+    await report_response.save();
+    res.send("Report Uploaded Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
@@ -51,32 +67,31 @@ const DoctorReportRegister = async (req, res) => {
     patient_id,
     name,
     description,
-    age,
+    patient_age,
     type,
     disease,
     criticality,
     date,
-    cid,
   } = req.body;
+  const report_response = new Report({
+    patient_id,
+    name,
+    description,
+    patient_age,
+    type,
+    disease,
+    criticality,
+    date,
+  });
   try {
-    const response = await Report.create({
-      patient_id,
-      name,
-      description,
-      age,
-      type,
-      disease,
-      criticality,
-      date,
-    });
-    await BlockChain_Report_Upload(response._id, patient_id, cid);
-    res.json({
-      type: "success",
-      message: "Report Uploaded Successfully",
-    });
+    await report_response.validate();
+    const cid = await UploadReport(req);
+    await BlockChain_Report_Upload(report_response._id, patient_id, cid);
+    await report_response.save();
+    res.send("Report Uploaded Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
@@ -85,23 +100,32 @@ const UpdatePrice = async (req, res) => {
   const { report_id } = req.params;
   try {
     await Report.findByIdAndUpdate(report_id, { price });
-    res.json({
-      type: "success",
-      message: "Price Updated Successfully",
-    });
+    res.send("Price Updated Successfully");
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ type: "error", message: err.message });
+    console.error(err);
+    res.status(400).send(err.message);
   }
 };
 
 const GetAllReports = async (req, res) => {
   try {
-    const response = await Report.find();
+    const response = await Report.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "patient_id",
+          foreignField: "_id",
+          as: "patient",
+        },
+      },
+      {
+        $unwind: "$patient",
+      },
+    ]);
     res.send(response);
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ type: "error", message: err.message });
+    console.error(err);
+    res.status(400).send(err.message);
   }
 };
 
@@ -113,8 +137,8 @@ const GetPatientReports = async (req, res) => {
     }).lean();
     res.send(response);
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ type: "error", message: err.message });
+    console.error(err);
+    res.status(400).send(err.message);
   }
 };
 
@@ -129,8 +153,8 @@ const GetBuyerReports = async (req, res) => {
     }).lean();
     res.send(response);
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ type: "error", message: err.message });
+    console.error(err);
+    res.status(400).send(err.message);
   }
 };
 
@@ -161,36 +185,24 @@ const GetReport = async (req, res) => {
     }
     res.send(response);
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ type: "error", message: err.message });
+    console.error(err);
+    res.status(400).send(err.message);
   }
 };
 
 const BlockChain_Report_Upload = async (id, user_id, CID) => {
-  try {
-    const tx = await connect.Uploading(id, user_id, CID, options);
-    console.log(await tx, "Uploaded Successfully");
-  } catch (err) {
-    console.log(err);
-  }
+  const tx = await connect.Uploading(id, user_id, CID, options);
+  console.log(await tx, "Uploaded Successfully");
 };
 
 const Blockchain_ReportForSale = async (id, owner) => {
-  try {
-    const tx = await connect.fileForSale(id, owner);
-    console.log(await tx, "Report for sale");
-  } catch (err) {
-    console.log(err);
-  }
+  const tx = await connect.fileForSale(id, owner);
+  console.log(await tx, "Report for sale");
 };
 
 // const ReportNotForSale = async (td, owner) => {
-//   try {
 //     const tx = await connect.fileNotForSale(id, owner);
 //     console.log(await tx, "Report not for sale");
-//   } catch (err) {
-//     console.log(err);
-//   }
 // };
 
 module.exports = {
