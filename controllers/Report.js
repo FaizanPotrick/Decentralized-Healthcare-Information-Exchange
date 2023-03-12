@@ -2,6 +2,9 @@ const { ethers } = require("ethers");
 const { wallet, my_contract } = require("../wallet");
 const Report = require("../models/Report");
 const Exchange = require("../models/Exchange");
+const axios = require("axios");
+const FormData = require("form-data");
+const fs = require("fs");
 
 const options = {
   gasLimit: 3000000,
@@ -11,8 +14,13 @@ const connect = my_contract.connect(wallet);
 
 const UploadReport = async (req) => {
   const { report } = req.files;
+  await report.mv(`./test/${report.name}`, (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
   const formData = new FormData();
-  formData.append("file", report);
+  formData.append("file", fs.createReadStream(`./test/${report.name}`));
   const { data } = await axios({
     method: "post",
     url: process.env.PINATA_URL,
@@ -49,12 +57,19 @@ const PatientReportRegister = async (req, res) => {
     date,
     price,
   });
+  const { report } = req.files;
   try {
     await report_response.validate();
     const cid = await UploadReport(req);
+    console.log(cid);
     await BlockChain_Report_Upload(report_response._id, user_id, cid);
     await Blockchain_ReportForSale(report_response._id, user_id);
     await report_response.save();
+    fs.unlink(`./test/${report.name}`, function (err) {
+      if (err) {
+        console.log(err);
+      }
+    })
     res.send("Report Uploaded Successfully");
   } catch (err) {
     console.error(err);

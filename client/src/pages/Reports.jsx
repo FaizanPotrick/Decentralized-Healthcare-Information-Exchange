@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { StateContext } from "../context/StateContext";
 import ReportCard from "../components/ReportCard";
-import reportsJSON from "../json/reports.json";
-import Cart from "../components/Cart";
 import Header from "../components/Header";
+import Cart from "../components/Cart";
 
 const Reports = () => {
-  const [reports, setReports] = useState(reportsJSON);
-  const [open, setOpen] = useState(true);
+  const { reports, setReports } = useContext(StateContext);
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -27,15 +27,10 @@ const Reports = () => {
         <div className="flex justify-center flex-wrap gap-4 w-full">
           {reports.map((report) => (
             <ReportCard
-              key={report.disease}
-              report_name={report.report_name}
-              patient_name={report.patient_name}
+              key={report._id}
+              report={report}
               age={report.age}
-              disease={report.disease}
-              report_cost={report.report_cost}
-              report_type={report.report_type}
               image={report.image}
-              severity={report.severity}
             />
           ))}
         </div>

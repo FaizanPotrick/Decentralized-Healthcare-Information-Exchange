@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import { StateContext } from "../context/StateContext";
+import React, { useState, useContext } from "react";
 import reportsJSON from "../json/reports.json";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Header({ setOpen, setReports }) {
+  const { setLoading, setAlert, setIsLogin } = useContext(StateContext);
   const [isProfileMenu, setIsProfileMenu] = useState(false);
+
+  const Logout = async () => {
+    setLoading(true);
+    try {
+      await axios.get("/api/logout");
+      setIsLogin(false);
+    } catch (error) {
+      console.log(error);
+      setAlert({
+        isAlert: true,
+        type: error.response.data.type,
+        message: error.response.data.message,
+      });
+    }
+    setLoading(false);
+  };
 
   return (
     //   <svg
@@ -47,10 +66,11 @@ function Header({ setOpen, setReports }) {
                     Profile
                   </a>
                 </li>
-                <li>
-                  <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Log out
-                  </a>
+                <li
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  onClick={Logout}
+                >
+                  Log out
                 </li>
               </ul>
             </div>
