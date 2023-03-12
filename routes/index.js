@@ -25,14 +25,15 @@ router.put("/login", Login);
 router.post("/registration/report/patient", PatientReportRegister);
 router.post("/registration/report/doctor", DoctorReportRegister);
 router.put("/registration/report/price/:report_id", UpdatePrice);
-router.get("/registration/report/all", GetAllReports);
-router.get("/registration/report/patient", GetPatientReports);
-router.get("/registration/report/buyer", GetBuyerReports);
-router.get("/registration/report/:report_id", GetReport);
-router.post("/registration/report/exchange/:report_id", PatientReportExchange);
+router.get("/report/all", GetAllReports);
+router.get("/report/patient", GetPatientReports);
+router.get("/report/buyer", GetBuyerReports);
+router.get("/report/:report_id", GetReport);
 
+
+router.post("/registration/report/exchange/:report_id", PatientReportExchange);
 router.post("/registration/cart/add/:report_id", AddToCart);
 router.post("/registration/cart/remove/:report_id", RemoveFromCart);
-router.get("/registration/cart", GetCart);
+router.get("/cart", GetCart);
 
 module.exports = router;

@@ -10,82 +10,73 @@ const connect = my_contract.connect(wallet);
 
 const PatientRegister = async (req, res) => {
   const { name, email_address, type_of_user, password } = req.body;
+  const user_response = new User({
+    name,
+    email_address,
+    type_of_user,
+    password,
+  })
   try {
     const email_response = await User.findOne({ email_address }).lean();
     if (email_response !== null) {
-      return res
-        .status(400)
-        .json({ type: "error", message: "Email Address already exists" });
+      return res.status(400).send("Email Address already exists");
     }
-    const response = await User.create({
-      name,
-      email_address,
-      type_of_user,
-      password,
-    });
-    await Blockchain_User_Register(response._id, name, type_of_user);
-    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
-      type: "success",
-      message: "Registered Successfully",
-    });
+    await user_response.validate();
+    await Blockchain_User_Register(user_response._id, name, type_of_user);
+    await user_response.save();
+    res.cookie("user_id", user_response._id).cookie("user_type", type_of_user).send("Registered Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
 const DoctorRegister = async (req, res) => {
   const { name, email_address, type_of_user, registration_number, password } =
     req.body;
+  const user_response = new User({
+    name,
+    email_address,
+    type_of_user,
+    registration_number,
+    password,
+  })
   try {
     const email_response = await User.findOne({ email_address }).lean();
     if (email_response !== null) {
-      return res
-        .status(400)
-        .json({ type: "error", message: "Email Address already exists" });
+      return res.status(400).send("Email Address already exists");
     }
-    const response = await User.create({
-      name,
-      email_address,
-      type_of_user,
-      registration_number,
-      password,
-    });
-    await Blockchain_User_Register(response._id, name, type_of_user);
-    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
-      type: "success",
-      message: "Registered Successfully",
-    });
+    await user_response.validate();
+    await Blockchain_User_Register(user_response._id, name, type_of_user);
+    await user_response.save();
+    res.cookie("user_id", user_response._id).cookie("user_type", type_of_user).send("Registered Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
 const BuyerRegister = async (req, res) => {
   const { name, email_address, type_of_user, gst_number, password } = req.body;
+  const user_response = new User({
+    name,
+    email_address,
+    type_of_user,
+    gst_number,
+    password,
+  })
   try {
     const email_response = await User.findOne({ email_address }).lean();
     if (email_response !== null) {
-      return res
-        .status(400)
-        .json({ type: "error", message: "Email Address already exists" });
+      return res.status(400).send("Email Address already exists");
     }
-    const response = await User.create({
-      name,
-      email_address,
-      type_of_user,
-      gst_number,
-      password,
-    });
-    await Blockchain_User_Register(response._id, name, type_of_user);
-    res.cookie("user_id", response._id).cookie("user_type", type_of_user).json({
-      type: "success",
-      message: "Registered Successfully",
-    });
+    await user_response.validate();
+    await Blockchain_User_Register(user_response._id, name, type_of_user);
+    await user_response.save();
+    res.cookie("user_id", user_response._id).cookie("user_type", type_of_user).send("Registered Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
@@ -97,30 +88,18 @@ const Login = async (req, res) => {
       password,
     }).lean();
     if (response === null) {
-      return res
-        .status(400)
-        .json({ type: "error", message: "Invalid Credentials" });
+      return res.status(400).send("Invalid Credentials");
     }
-    res
-      .cookie("user_id", response._id)
-      .cookie("user_type", response.type_of_user)
-      .json({
-        type: "success",
-        message: "Logged In Successfully",
-      });
+    res.cookie("user_id", response._id).cookie("user_type", response.type_of_user).send("Login Successfully");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
 const Blockchain_User_Register = async (id, name, role) => {
-  try {
-    const tx = await connect.registerUser(id, name, role, options);
-    console.log(await tx, "Registered Successfully");
-  } catch (err) {
-    console.log(err);
-  }
+  const tx = await connect.registerUser(id, name, role, options);
+  console.log(await tx, "Registered Successfully");
 };
 
 module.exports = {

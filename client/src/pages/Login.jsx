@@ -38,8 +38,8 @@ const Login = () => {
     } catch (error) {
       setAlert({
         isAlert: true,
-        type: error.response.data.type,
-        message: error.response.data.message,
+        type: "error",
+        message: error.response.data,
       });
     }
     setLoading(false);
@@ -62,7 +62,6 @@ const Login = () => {
                 className="input_field"
                 type="email"
                 name="email_address"
-                placeholder="example@gamil.com"
                 value={login.email_address}
                 onChange={onChange}
                 required
@@ -74,7 +73,6 @@ const Login = () => {
                 className="input_field"
                 type="password"
                 name="password"
-                placeholder="********"
                 value={login.password}
                 onChange={onChange}
                 autoComplete="off"

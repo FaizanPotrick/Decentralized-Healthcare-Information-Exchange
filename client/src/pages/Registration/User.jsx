@@ -57,8 +57,8 @@ const User = ({ type_of_user }) => {
     } catch (error) {
       setAlert({
         isAlert: true,
-        type: error.response.data.type,
-        message: error.response.data.message,
+        type: "error",
+        message: error.response.data,
       });
     }
     setLoading(false);
