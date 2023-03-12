@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { StateContext } from "../context/StateContext";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 
 const ReportCard = ({
@@ -16,9 +17,10 @@ const ReportCard = ({
   },
 }) => {
   const { isLogin, setAlert } = useContext(StateContext);
+  const [cookies] = useCookies(["user_id"]);
   const AddToCart = async () => {
     try {
-      await axios.post(`/api/registration/cart/add/${_id}`);
+      await axios.get(`/api/registration/cart/add/${_id}`);
     } catch (err) {
       console.log(err);
       setAlert({
@@ -65,7 +67,7 @@ const ReportCard = ({
         <div className="bg-red-200 rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-red-700 uppercase">
           {criticality}
         </div>
-        {isLogin && (
+        {cookies.user_type == "buyer" && isLogin && (
           <button
             onClick={AddToCart}
             className="bg-yellow-100/40 rounded-lg shadow px-3.5 py-0.5 font-medium"

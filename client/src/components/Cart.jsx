@@ -1,10 +1,60 @@
-import React, { Fragment, useState } from "react";
-import reportsJSON from "../json/reports.json";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { StateContext } from "../context/StateContext";
+import axios from "axios";
 
 const Cart = ({ open, setOpen }) => {
-  const [reports] = useState(reportsJSON.slice(4, 6));
+  const [reports, setReports] = useState([]);
+  const { setLoading, setAlert } = useContext(StateContext);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (!open) return;
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get("/api/cart");
+        setReports(data);
+        setTotalPrice(
+          data.reduce((acc, curr) => {
+            return acc + curr.report.price;
+          }, 0)
+        );
+      } catch (err) {
+        console.log(err);
+        setAlert({
+          isAlert: true,
+          type: "error",
+          message: err.response.data.message,
+        });
+      }
+      setLoading(false);
+    })();
+  }, [open]);
+
+  const RemoveFromCart = async (id) => {
+    setLoading(true);
+    try {
+      await axios.get(`/api/registration/cart/remove/${id}`);
+      setTotalPrice(
+        reports
+          .filter((report) => report._id !== id)
+          .reduce((acc, curr) => {
+            return acc + curr.report.price;
+          }, 0)
+      );
+      setReports(reports.filter((report) => report._id !== id));
+    } catch (err) {
+      console.log(err);
+      setAlert({
+        isAlert: true,
+        type: "error",
+        message: err.response.data.message,
+      });
+    }
+    setLoading(false);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -56,47 +106,52 @@ const Cart = ({ open, setOpen }) => {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {reports.map((product) => (
-                              <li key={product.disease} className="flex py-4">
-                                <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
-                                  <img
-                                    src={product.image}
-                                    alt="product"
-                                    className="h-full w-full object-cover object-center"
-                                  />
-                                </div>
-                                <div className="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        {/* <a href={product.href}> */}
-                                        {product.report_name}
-                                        {/* </a> */}
-                                      </h3>
-                                      <p className="ml-4">
-                                        ${product.report_cost}
+                            {reports.map((product) => {
+                              return (
+                                <li key={product._id} className="flex py-4">
+                                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
+                                    <img
+                                      src={
+                                        product.report.type == "pdf"
+                                          ? "x-ray.png"
+                                          : "checkup.png"
+                                      }
+                                      alt="product"
+                                      className="h-full w-full object-cover object-center"
+                                    />
+                                  </div>
+                                  <div className="ml-4 flex flex-1 flex-col">
+                                    <div>
+                                      <div className="flex justify-between text-base font-medium text-gray-900">
+                                        <h3>{product.report.name}</h3>
+                                        <p className="ml-4">
+                                          ${product.report.price}
+                                        </p>
+                                      </div>
+                                      <p className="mt-1 text-sm text-gray-500">
+                                        {product.patient.name} -
+                                        {product.report.patient_age}
                                       </p>
                                     </div>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                      {product.patient_name} - {product.age}
-                                    </p>
-                                  </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500 uppercase">
-                                      {product.report_type}
-                                    </p>
-                                    <div className="flex">
-                                      <button
-                                        type="button"
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                                      >
-                                        Remove
-                                      </button>
+                                    <div className="flex flex-1 items-end justify-between text-sm">
+                                      <p className="text-gray-500 uppercase">
+                                        {product.report.type}
+                                      </p>
+                                      <div className="flex">
+                                        <button
+                                          onClick={() =>
+                                            RemoveFromCart(product._id)
+                                          }
+                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        >
+                                          Remove
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </li>
-                            ))}
+                                </li>
+                              );
+                            })}
                           </ul>
                         </div>
                       </div>
@@ -104,7 +159,7 @@ const Cart = ({ open, setOpen }) => {
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>$262.00</p>
+                        <p>${totalPrice}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Exchange and taxes calculated at checkout.

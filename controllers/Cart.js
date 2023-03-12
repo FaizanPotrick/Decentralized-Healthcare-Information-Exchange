@@ -1,4 +1,5 @@
 const Cart = require("../models/Cart");
+const mongoose = require("mongoose");
 
 const AddToCart = async (req, res) => {
   const { report_id } = req.params;
@@ -8,31 +9,23 @@ const AddToCart = async (req, res) => {
       user_id,
       report_id,
     });
-    res.json({
-      type: "success",
-      message: "Successfully Added",
-    });
+    res.send("Successfully Added");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
 const RemoveFromCart = async (req, res) => {
   const { report_id } = req.params;
-  const { user_id } = req.cookies;
   try {
     await Cart.deleteOne({
-      user_id,
-      report_id,
+      _id: report_id,
     });
-    res.json({
-      type: "success",
-      message: "Successfully Removed",
-    });
+    res.send("Successfully Removed");
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 
@@ -42,7 +35,7 @@ const GetCart = async (req, res) => {
     const response = await Cart.aggregate([
       {
         $match: {
-          user_id,
+          user_id: mongoose.Types.ObjectId(user_id),
         },
       },
       {
@@ -56,11 +49,22 @@ const GetCart = async (req, res) => {
       {
         $unwind: "$report",
       },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "patient",
+        },
+      },
+      {
+        $unwind: "$patient",
+      },
     ]);
     res.send(response);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ type: "error", message: err.message });
+    res.status(400).send(err.message);
   }
 };
 

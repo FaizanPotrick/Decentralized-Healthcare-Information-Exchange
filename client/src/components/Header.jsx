@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Header({ setOpen, setReports }) {
-  const { setLoading, setAlert, setIsLogin } = useContext(StateContext);
+  const { setLoading, setAlert, setIsLogin, isLogin } =
+    useContext(StateContext);
   const [isProfileMenu, setIsProfileMenu] = useState(false);
 
   const Logout = async () => {
@@ -25,57 +26,64 @@ function Header({ setOpen, setReports }) {
   };
 
   return (
-    //   <svg
-    //     fill="none"
-    //     stroke="currentColor"
-    //     strokeWidth="2"
-    //     viewBox="0 0 24 24"
-    //     className="w-8 h-8 text-[#00553a]/50 dark:text-[#00553a]/50 hover:text-[#00553a]/100 dark:hover:text-[#00553a]/100 transition-colors duration-200 ease-in-out cursor-pointer"
-    //     onClick={() => setOpen(true)}
-    //   >
-    //     <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
-    //   </svg>
-
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <Link to="/" className="flex items-center">
           <img src="logo.jpg" className="h-9 mr-3 sm:h-14" alt="logo" />
         </Link>
-        <div className="relative flex items-center md:order-2">
-          <button
-            className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0"
-            onClick={() => {
-              setIsProfileMenu(!isProfileMenu);
-            }}
-          >
-            <img className="w-8 h-8 rounded-full" alt="user photo" />
-          </button>
-          {isProfileMenu && (
-            <div className="absolute top-6 right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow border">
-              <div className="px-4 py-3">
-                <span className="block text-sm text-gray-900">
-                  Bonnie Green
-                </span>
-                <span className="block text-sm font-medium text-gray-500 truncate">
-                  name@flowbite.com
-                </span>
+        {isLogin && (
+          <div className="relative flex items-center md:order-2">
+            <button
+              className="flex rounded-full mr-3"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                className="h-8 w-8"
+              >
+                <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+              </svg>
+            </button>
+            <button
+              className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0"
+              onClick={() => {
+                setIsProfileMenu(!isProfileMenu);
+              }}
+            >
+              <img className="w-8 h-8 rounded-full" alt="user photo" />
+            </button>
+            {isProfileMenu && (
+              <div className="absolute top-6 right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow border">
+                <div className="px-4 py-3">
+                  <span className="block text-sm text-gray-900">
+                    Bonnie Green
+                  </span>
+                  <span className="block text-sm font-medium text-gray-500 truncate">
+                    name@flowbite.com
+                  </span>
+                </div>
+                <ul className="py-2">
+                  <li>
+                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      Profile
+                    </a>
+                  </li>
+                  <li
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    onClick={Logout}
+                  >
+                    Log out
+                  </li>
+                </ul>
               </div>
-              <ul className="py-2">
-                <li>
-                  <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Profile
-                  </a>
-                </li>
-                <li
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                  onClick={Logout}
-                >
-                  Log out
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
         <div className="relative hidden md:block w-full max-w-xl">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg

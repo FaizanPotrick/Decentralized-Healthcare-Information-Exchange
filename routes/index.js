@@ -29,11 +29,11 @@ router.get("/report/all", GetAllReports);
 router.get("/report/patient", GetPatientReports);
 router.get("/report/buyer", GetBuyerReports);
 router.get("/report/:report_id", GetReport);
+router.get("/registration/cart/add/:report_id", AddToCart);
+router.get("/registration/cart/remove/:report_id", RemoveFromCart);
+router.get("/cart", GetCart);
 
 
 router.post("/registration/report/exchange/:report_id", PatientReportExchange);
-router.post("/registration/cart/add/:report_id", AddToCart);
-router.post("/registration/cart/remove/:report_id", RemoveFromCart);
-router.get("/cart", GetCart);
 
 module.exports = router;
