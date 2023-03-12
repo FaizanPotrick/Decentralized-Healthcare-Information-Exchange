@@ -11,10 +11,16 @@ const Dashboard = () => {
       <Header />
       <div className="flex justify-end">
         <Link
-          className="text-purple-600 hover:underline ml-1"
+          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
           to="/registration/report"
         >
-          Upload Report
+          Upload Reports
+        </Link>
+        <Link
+          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
+          to="/registration/report"
+        >
+          Go To Exchange
         </Link>
         {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Go to Exchange

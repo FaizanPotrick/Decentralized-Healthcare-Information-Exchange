@@ -1,4 +1,5 @@
 import React from "react";
+import download from "../icons/download.png";
 
 const Table = ({ head, value }) => {
   return (
@@ -39,9 +40,13 @@ const Table = ({ head, value }) => {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  {/* <div className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                     Download
-                  </div>
+                  </div> */}
+                  <img
+                    className="w-6 h-6 mt-2 mr-10 cursor-pointer"
+                    src={download}
+                  />
                 </td>
                 <td className="px-6 py-4">
                   <div className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
