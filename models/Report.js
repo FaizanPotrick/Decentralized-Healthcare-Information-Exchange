@@ -16,6 +16,10 @@ const Report = new Schema(
       trim: true,
       required: [true, "Please add a Description"],
     },
+    patient_age: {
+      type: Number,
+      required: [true, "Please add a Patient Age"],
+    },
     type: {
       type: String,
       trim: true,
@@ -29,11 +33,10 @@ const Report = new Schema(
     disease: {
       type: String,
       trim: true,
-      match: [
-        /^[a-zA-Z0-9]+$/,
-        (props) => `${props.value} is not a valid disease`,
-      ],
       required: [true, "Please add a Disease"],
+    },
+    price: {
+      type: Number,
     },
     criticality: {
       type: String,
@@ -48,9 +51,6 @@ const Report = new Schema(
     date: {
       type: Date,
       required: [true, "Please add a Date"],
-    },
-    price: {
-      type: Number,
     },
   },
   {

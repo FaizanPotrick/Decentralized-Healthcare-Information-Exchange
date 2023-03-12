@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StateContext } from "../../context/StateContext";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 
 const Report = () => {
   const navigate = useNavigate();
-  const { setIsLogin, isLogin, setAlert, setLoading } =
-    useContext(StateContext);
-  const [type_of_user] = useState("patient");
+  const { isLogin, setAlert, setLoading } = useContext(StateContext);
+  const [cookies] = useCookies(["user_id"]);
+  const [type_of_user] = useState(cookies.user_type);
   const [register, setRegister] = useState({
     patient_id: "",
     name: "",
     description: "",
-    age: "",
+    patient_age: "",
     type: "",
     disease: "",
     criticality: "",
     date: "",
     price: "",
-    cid: "",
   });
   const [reportFile, setReportFile] = useState({});
 
@@ -26,7 +26,7 @@ const Report = () => {
     if (!isLogin) {
       navigate(-1);
     }
-  }, [setIsLogin]);
+  }, [isLogin]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -42,32 +42,18 @@ const Report = () => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
-    formData.append("file", reportFile);
+    formData.append("patient_id", register.patient_id);
+    formData.append("name", register.name);
+    formData.append("description", register.description);
+    formData.append("patient_age", register.patient_age);
+    formData.append("type", register.type);
+    formData.append("disease", register.disease);
+    formData.append("criticality", register.criticality);
+    formData.append("date", register.date);
+    formData.append("price", register.price);
+    formData.append("report", reportFile);
     try {
-      const { data } = await axios({
-        method: "post",
-        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        data: formData,
-        headers: {
-          pinata_api_key: "d65df4e210a2c9065126",
-          pinata_secret_api_key:
-            "3cbee27993f99c27396280dcdbb94c6d9a54cd626d42470af0aeee135c013105",
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      const CID = `ipfs://${data.IpfsHash}`;
-      setRegister({ ...register, cid: CID });
-    } catch (error) {
-      setAlert({
-        isAlert: true,
-        type: "error",
-        message: error.message,
-      });
-      setLoading(false);
-      return;
-    }
-    try {
-      await axios.post(`/api/registration/report/${type_of_user}`, register);
+      await axios.post(`/api/registration/report/${type_of_user}`, formData);
       setRegister({
         patient_id: "",
         name: "",
@@ -80,13 +66,12 @@ const Report = () => {
         price: "",
       });
       setReportFile({});
-      setIsLogin(true);
       navigate("/dashboard");
     } catch (error) {
       setAlert({
         isAlert: true,
-        type: error.response.data.type,
-        message: error.response.data.message,
+        type: "error",
+        message: error.response.data,
       });
     }
     setLoading(false);
@@ -112,7 +97,7 @@ const Report = () => {
                 </div>
               )}
               <div>
-                <label className="input_label">Name*</label>
+                <label className="input_label">Report Name*</label>
                 <input
                   className="input_field"
                   type="text"
@@ -138,22 +123,27 @@ const Report = () => {
                 <input
                   className="input_field"
                   type="text"
-                  name="age"
-                  value={register.age}
+                  name="patient_age"
+                  value={register.patient_age}
                   onChange={onChange}
                   required
                 />
               </div>
               <div>
-                <label className="input_label">Type od Report*</label>
-                <input
+                <label className="input_label">Type of Report*</label>
+                <select
                   className="input_field"
-                  type="text"
                   name="type"
                   value={register.type}
                   onChange={onChange}
                   required
-                />
+                >
+                  <option selected value="">
+                    Report Type
+                  </option>
+                  <option value="pdf">PDF</option>
+                  <option value="image">Image</option>
+                </select>
               </div>
               <div>
                 <label className="input_label">Disease*</label>
@@ -168,14 +158,20 @@ const Report = () => {
               </div>
               <div>
                 <label className="input_label">Criticality*</label>
-                <input
+                <select
                   className="input_field"
-                  type="text"
                   name="criticality"
                   value={register.criticality}
                   onChange={onChange}
                   required
-                />
+                >
+                  <option selected value="">
+                    Criticality Level
+                  </option>
+                  <option value="high">Hgh</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
               </div>
               <div>
                 <label className="input_label">Date*</label>
