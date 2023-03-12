@@ -1,11 +1,10 @@
 import { StateContext } from "../context/StateContext";
 import React, { useState, useContext } from "react";
-import reportsJSON from "../json/reports.json";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function Header({ setOpen, setReports }) {
-  const { setLoading, setAlert, setIsLogin, isLogin } =
+function Header({ setOpen }) {
+  const { setLoading, setAlert, setIsLogin, isLogin, reports, setReports } =
     useContext(StateContext);
   const [isProfileMenu, setIsProfileMenu] = useState(false);
 
@@ -101,21 +100,21 @@ function Header({ setOpen, setReports }) {
             onChange={(e) => {
               const searchQuery = e.target.value;
               setReports(
-                reportsJSON.filter((report) => {
+                reports.filter((report) => {
                   return (
-                    report.report_name
+                    report.name
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ||
-                    report.patient_name
+                    report.patient.name
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ||
                     report.disease
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ||
-                    report.report_type
+                    report.type
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ||
-                    report.severity
+                    report.criticality
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase())
                   );

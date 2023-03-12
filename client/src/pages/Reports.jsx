@@ -5,12 +5,12 @@ import Header from "../components/Header";
 import Cart from "../components/Cart";
 
 const Reports = () => {
-  const { reports, setReports } = useContext(StateContext);
+  const { reports } = useContext(StateContext);
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Header setOpen={setOpen} setReports={setReports} />
+      <Header setOpen={setOpen} />
       <div className="flex justify-center items-center flex-col mx-2 md:mx-5 lg:mx-8">
         <div className="flex justify-around items-center w-full mb-5">
           <div className="text-3xl font-semibold">Exchange</div>

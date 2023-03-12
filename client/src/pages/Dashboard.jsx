@@ -4,27 +4,30 @@ import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from "../icons";
 import Header from "../components/Header";
 import Table from "../components/Table";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Dashboard = () => {
+  const [cookies] = useCookies(["user_id"]);
   return (
     <div className="container mx-auto">
       <Header />
       <div className="flex justify-end">
-        <Link
-          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
-          to="/registration/report"
-        >
-          Upload Reports
-        </Link>
-        <Link
-          className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
-          to="/registration/report"
-        >
-          Go To Exchange
-        </Link>
-        {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
-          Go to Exchange
-        </Link> */}
+        {cookies.user_type != "buyer" && (
+          <Link
+            className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
+            to="/registration/report"
+          >
+            Upload Reports
+          </Link>
+        )}
+        {cookies.user_type == "buyer" && (
+          <Link
+            className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
+            to="/registration/report"
+          >
+            Go To Exchange
+          </Link>
+        )}
         {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Redeem
         </Link> */}
