@@ -97,6 +97,18 @@ const Login = async (req, res) => {
   }
 };
 
+const GetPatient = async (req, res) => {
+  try {
+    const response = await User.find({
+      type_of_user: "patient"
+    }).lean();
+    res.send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
 const Blockchain_User_Register = async (id, name, role) => {
   const tx = await connect.registerUser(id, name, role, options);
   console.log(await tx, "Registered Successfully");
@@ -106,5 +118,6 @@ module.exports = {
   PatientRegister,
   DoctorRegister,
   BuyerRegister,
+  GetPatient,
   Login,
 };

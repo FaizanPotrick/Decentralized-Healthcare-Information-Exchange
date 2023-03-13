@@ -3,6 +3,7 @@ const {
   PatientRegister,
   DoctorRegister,
   BuyerRegister,
+  GetPatient,
   Login,
 } = require("../controllers/User");
 const {
@@ -32,6 +33,7 @@ router.get("/report/:report_id", GetReport);
 router.get("/registration/cart/add/:report_id", AddToCart);
 router.get("/registration/cart/remove/:report_id", RemoveFromCart);
 router.get("/cart", GetCart);
+router.get("/patient", GetPatient);
 
 
 router.post("/registration/report/exchange/:report_id", PatientReportExchange);
