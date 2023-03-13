@@ -7,16 +7,17 @@ import Table from "../components/Table";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Report from "./Registration/Report";
+import axios from "axios";
 
 const Dashboard = () => {
   const { isLogin, setAlert, setLoading } = useContext(StateContext);
   const [cookies] = useCookies(["user_id"]);
   const navigate = useNavigate();
+  const [reports, setReports] = useState([]);
 
   useEffect(() => {
     if (!isLogin) {
       navigate(-1);
-      return;
     }
     if (
       cookies.user_type !== "patient" &&
@@ -24,9 +25,30 @@ const Dashboard = () => {
       cookies.user_type !== "doctor"
     ) {
       navigate(-1);
-      return;
     }
-  }, [isLogin]);
+  }, [isLogin, cookies.user_type]);
+
+  useEffect(() => {
+    if (cookies.user_type === "patient" || cookies.user_type === "buyer") {
+      (async () => {
+        setLoading(true);
+        try {
+          const { data } = await axios.get(`/api/report/${cookies.user_type}`);
+          console.log(data);
+          setReports(data);
+        } catch (error) {
+          console.log(error);
+          setAlert({
+            isAlert: true,
+            type: "error",
+            message: error.response.data,
+          });
+        }
+        setLoading(false);
+      })();
+    }
+  }, [cookies.user_type]);
+
   return (
     <>
       {cookies.user_type === "doctor" ? (
@@ -70,7 +92,8 @@ const Dashboard = () => {
               "Price",
               "",
             ]}
-            value={[""]}
+            value={reports}
+            setReports={setReports}
           />
           {/* <div className="flex flex-col w-full"> */}
           {/* <div className="my-6 text-2xl font-semibold text-gray-700 ">Charts</div> */}
