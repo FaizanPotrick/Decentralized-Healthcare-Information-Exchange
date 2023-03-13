@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Price({ setIsPrice, isPrice }) {
+function Price({ setIsPrice, isPrice, setReFetched, reFetched }) {
   const [price, setPrice] = useState(0);
 
   const onSubmit = async (e) => {
@@ -11,6 +11,7 @@ function Price({ setIsPrice, isPrice }) {
         price,
       });
       setPrice(0);
+      setReFetched(!reFetched);
       setIsPrice({
         isPrice: false,
         report_id: "",

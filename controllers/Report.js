@@ -14,11 +14,7 @@ const connect = my_contract.connect(wallet);
 
 const UploadReport = async (req) => {
   const { report } = req.files;
-  await report.mv(`./test/${report.name}`, (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  await report.mv(`./test/${report.name}`);
   const formData = new FormData();
   formData.append("file", fs.createReadStream(`./test/${report.name}`));
   const { data } = await axios({
@@ -61,7 +57,6 @@ const PatientReportRegister = async (req, res) => {
   try {
     await report_response.validate();
     const cid = await UploadReport(req);
-    console.log(cid);
     await BlockChain_Report_Upload(report_response._id, user_id, cid);
     await Blockchain_ReportForSale(report_response._id, user_id);
     await report_response.save();
@@ -98,11 +93,17 @@ const DoctorReportRegister = async (req, res) => {
     criticality,
     date,
   });
+  const { report } = req.files;
   try {
     await report_response.validate();
     const cid = await UploadReport(req);
     await BlockChain_Report_Upload(report_response._id, patient_id, cid);
     await report_response.save();
+    fs.unlink(`./test/${report.name}`, function (err) {
+      if (err) {
+        console.log(err);
+      }
+    })
     res.send("Report Uploaded Successfully");
   } catch (err) {
     console.error(err);
@@ -121,6 +122,19 @@ const UpdatePrice = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+
+const DeleteReport = async (req, res) => {
+  const { report_id } = req.params;
+  try {
+    await Report.deleteOne({
+      _id: report_id,
+    });
+    res.send("Report Deleted Successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+}
 
 const GetAllReports = async (req, res) => {
   try {
@@ -224,6 +238,7 @@ module.exports = {
   PatientReportRegister,
   DoctorReportRegister,
   UpdatePrice,
+  DeleteReport,
   GetAllReports,
   GetPatientReports,
   GetBuyerReports,

@@ -27,7 +27,7 @@ router.put("/login", Login);
 router.post("/registration/report/patient", PatientReportRegister);
 router.post("/registration/report/doctor", DoctorReportRegister);
 router.put("/registration/report/price/:report_id", UpdatePrice);
-router.get("/registration/report/:report_id", DeleteReport);
+router.get("/registration/report/remove/:report_id", DeleteReport);
 router.get("/report/all", GetAllReports);
 router.get("/report/patient", GetPatientReports);
 router.get("/report/buyer", GetBuyerReports);

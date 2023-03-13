@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [cookies] = useCookies(["user_id"]);
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
+  const [reFetched, setReFetched] = useState(false);
 
   useEffect(() => {
     if (!isLogin) {
@@ -47,7 +48,7 @@ const Dashboard = () => {
         setLoading(false);
       })();
     }
-  }, [cookies.user_type]);
+  }, [cookies.user_type, reFetched]);
 
   return (
     <>
@@ -91,62 +92,13 @@ const Dashboard = () => {
               "Criticality",
               "Price",
               "",
+              "",
+              "",
             ]}
             value={reports}
-            setReports={setReports}
+            setReFetched={setReFetched}
+            reFetched={reFetched}
           />
-          {/* <div className="flex flex-col w-full"> */}
-          {/* <div className="my-6 text-2xl font-semibold text-gray-700 ">Charts</div> */}
-          {/* <div className="grid gap-6 mb-8 md:grid-cols-2">
-        <div className="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-          <p className="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-            Criticality
-          </p>
-          <Doughnut
-            data={{
-              datasets: [
-                {
-                  data: [33, 33, 33],
-                  backgroundColor: ["#0694a2", "#1c64f2", "#7e3af2"],
-                  label: "Dataset 1",
-                },
-              ],
-              labels: ["High", "Medium", "Low"],
-            }}
-          />
-          <div className="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-            {doughnutLegends.map((legend) => {
-              return (
-                <div className="flex items-center" key={legend.title}>
-                  <span
-                    className={`inline-block w-3 h-3 mr-1 ${legend.color} rounded-full`}
-                  ></span>
-                  <span>{legend.title}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {/* <div className="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-          <p className="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-            Revenue
-          </p>
-          <Line {...lineOptions} />
-          <div className="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-            {lineLegends.map((legend) => {
-              return (
-                <div className="flex items-center" key={legend.title}>
-                  <span
-                    className={`inline-block w-3 h-3 mr-1 ${legend.color} rounded-full`}
-                  ></span>
-                  <span>{legend.title}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div> *
-      </div> */}
-          {/* </div> */}
         </div>
       )}
     </>

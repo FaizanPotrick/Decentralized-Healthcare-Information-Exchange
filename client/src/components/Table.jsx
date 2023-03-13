@@ -3,7 +3,7 @@ import download from "../icons/download.png";
 import Price from "./Price";
 import axios from "axios";
 
-const Table = ({ head, value, setReports }) => {
+const Table = ({ head, value, setReFetched, reFetched }) => {
   const [isPrice, setIsPrice] = useState({
     isPrice: false,
     report_id: "",
@@ -11,8 +11,8 @@ const Table = ({ head, value, setReports }) => {
 
   const DeleteReport = async (report_id) => {
     try {
-      await axios.get(`/api/registration/report/${report_id}`);
-      setReports(value.filter((item) => item._id !== report_id));
+      await axios.get(`/api/registration/report/remove/${report_id}`);
+      setReFetched(!reFetched);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +70,9 @@ const Table = ({ head, value, setReports }) => {
                 <td className="px-6 py-4">
                   <button
                     className="font-medium text-blue-600 hover:underline"
-                    onClick={DeleteReport(item._id)}
+                    onClick={() => {
+                      DeleteReport(item._id);
+                    }}
                   >
                     Delete
                   </button>
@@ -80,7 +82,14 @@ const Table = ({ head, value, setReports }) => {
           })}
         </tbody>
       </table>
-      {isPrice.isPrice && <Price setIsPrice={setIsPrice} isPrice={isPrice} />}
+      {isPrice.isPrice && (
+        <Price
+          setIsPrice={setIsPrice}
+          isPrice={isPrice}
+          setReFetched={setReFetched}
+          reFetched={reFetched}
+        />
+      )}
     </div>
   );
 };
