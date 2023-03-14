@@ -21,7 +21,7 @@ const PatientReportExchange = async (req, res) => {
         report_id: item.report_id,
       });
       await exchange_response.validate();
-      // await Blockchain_SellReport(user_response.name, user_id, item.report_id);
+      // await Blockchain_SellReport(user_response.name, user_id, exchange_response.report_id);
       await exchange_response.save();
       await Cart.findByIdAndDelete(item._id);
     });
