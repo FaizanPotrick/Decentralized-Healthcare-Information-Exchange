@@ -56,6 +56,23 @@ const Cart = ({ open, setOpen }) => {
     setLoading(false);
   };
 
+  const Purchase = async () => {
+    setLoading(true);
+    try {
+      await axios.get("/api/registration/report/exchange");
+      setReports([]);
+      setTotalPrice(0);
+    } catch (err) {
+      console.log(err);
+      setAlert({
+        isAlert: true,
+        type: "error",
+        message: err.response.data.message,
+      });
+    }
+    setLoading(false);
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -165,12 +182,12 @@ const Cart = ({ open, setOpen }) => {
                         Exchange and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
-                        <a
-                          href="#"
-                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        <button
+                          onClick={Purchase}
+                          className="w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 font-medium text-white shadow hover:bg-indigo-700"
                         >
-                          Checkout
-                        </a>
+                          Purchase
+                        </button>
                       </div>
                     </div>
                   </div>
