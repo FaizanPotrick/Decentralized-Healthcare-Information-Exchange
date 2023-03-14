@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { StateContext } from "../context/StateContext";
 import ImageLight from "../assets/login-image.png";
 import { Link } from "react-router-dom";
-import logo from "../icons/logo.png";
+import logo from "../assets/logo.jpg";
 
 const Landing = () => {
   const { isLogin } = useContext(StateContext);
@@ -11,6 +11,14 @@ const Landing = () => {
       <header className="text-gray-600 body-font w-full flex flex-wrap justify-around items-center mt-5">
         <img className="h-20 mt-2" src={logo} />
         <div className="flex gap-4">
+          {isLogin && (
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center text-white bg-purple-500 space-x-3 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md  text-base mt-4 md:mt-0"
+            >
+              Dashboard
+            </Link>
+          )}
           <Link
             to="/login"
             className="inline-flex items-center space-x-3  text-white bg-purple-500 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md text-base mt-4 md:mt-0"
@@ -23,14 +31,6 @@ const Landing = () => {
           >
             SignUp
           </Link>
-          {isLogin && (
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center text-white bg-purple-500 space-x-3 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md  text-base mt-4 md:mt-0"
-            >
-              Dashboard
-            </Link>
-          )}
         </div>
       </header>
       <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center max-h-screen overflow-hidden">

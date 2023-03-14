@@ -180,10 +180,10 @@ const GetBuyerReports = async (req, res) => {
   const { user_id } = req.cookies;
   try {
     const patient_ids = await Exchange.find({
-      buyer_id: user_id,
-    }).lean();
+      user_id,
+    }).distinct("report_id").lean();
     const response = await Report.find({
-      patient_id: patient_ids,
+      _id: patient_ids,
     }).lean();
     res.send(response);
   } catch (err) {

@@ -21,7 +21,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg border">
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-          <tr>
+          <tr className="border-b text-center">
             {head.map((item, index) => {
               return (
                 <th scope="col" className="px-6 py-3" key={index}>
@@ -34,17 +34,28 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
         <tbody>
           {value.map((item, index) => {
             return (
-              <tr className="bg-white border-b" key={index}>
+              <tr className="bg-white border-b text-center" key={index}>
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                 >
                   {item.name}
                 </th>
-                <td className="px-6 py-4 capitalize">{item.disease}</td>
+                <td className="px-6 py-4 capitalize">
+                  <div className="flex justify-center gap-2 capitalize">
+                    <div className="bg-green-200 rounded-md px-3 text-green-700 w-fit">
+                      {item.disease.split(",")[0]}
+                    </div>
+                    {item.disease.split(",")[1] && (
+                      <div className="bg-gray-200 rounded-md px-3 text-gray-700 w-fit">
+                        {item.disease.split(",")[1]}
+                      </div>
+                    )}
+                  </div>
+                </td>
                 <td className="px-6 py-4">{item.date.substring(0, 10)}</td>
-                <td className="px-6 py-4 uppercase">
-                  <div className="bg-red-300 rounded-md px-3 text-black text-center w-fit">
+                <td className="px-6 py-4 uppercase flex justify-center">
+                  <div className="bg-red-300 rounded-md px-3 text-black w-fit">
                     {item.criticality}
                   </div>
                 </td>
