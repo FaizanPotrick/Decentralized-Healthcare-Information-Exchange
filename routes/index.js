@@ -15,6 +15,8 @@ const {
   GetPatientReports,
   GetBuyerReports,
   GetReport,
+  GetPatientCID,
+  GetBuyerCID
 } = require("../controllers/Report");
 const { PatientReportExchange } = require("../controllers/Exchange");
 const { AddToCart, RemoveFromCart, GetCart } = require("../controllers/Cart");
@@ -37,5 +39,8 @@ router.get("/registration/cart/remove/:report_id", RemoveFromCart);
 router.get("/cart", GetCart);
 router.get("/patient", GetPatient);
 router.get("/registration/report/exchange", PatientReportExchange);
+router.get("/report/patient/cid/:report_id", GetPatientCID);
+
+router.get("/report/buyer/cid/:report_id", GetBuyerCID); // remaining
 
 module.exports = router;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import download from "../icons/download.png";
 import Price from "./Price";
 import axios from "axios";
 
@@ -13,6 +12,21 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
     try {
       await axios.get(`/api/registration/report/remove/${report_id}`);
       setReFetched(!reFetched);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetCID = async (report_id) => {
+    try {
+      const { data } = await axios.get(
+        `/api/report/${cookies.user_type}/cid/${report_id}`
+      );
+      if (!data) {
+        console.log("NO CID");
+        return;
+      }
+      window.location.href = `https://ipfs.io/ipfs/${data.split("ipfs://")[1]}`;
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +94,12 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                   </td>
                 )}
                 <td className="px-6 py-4">
-                  <img className="w-5 h-5 cursor-pointer" src={download} />
+                  <button
+                    className="font-medium text-blue-600 hover:underline"
+                    onClick={() => GetCID(item._id)}
+                  >
+                    View
+                  </button>
                 </td>
                 {cookies.user_type === "patient" && (
                   <td className="px-6 py-4">

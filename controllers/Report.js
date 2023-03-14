@@ -5,6 +5,7 @@ const Exchange = require("../models/Exchange");
 const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
+const User = require("../models/User");
 
 const options = {
   gasLimit: 3000000,
@@ -194,30 +195,41 @@ const GetBuyerReports = async (req, res) => {
 
 const GetReport = async (req, res) => {
   const { report_id } = req.params;
-  const { user_type } = req.cookies;
   try {
     const response = await Report.findById(report_id).lean();
-    if (user_type === "patient") {
-      const user_response = await User.findById(response.patient_id).lean();
-      const blockchain_patient_response = await connect.getFileForOwner(
-        response._id,
-        user_response.name
-      );
-      response.cid = blockchain_patient_response;
-    } else {
-      const exchange_response = await Exchange.findOne({
-        report_id: response._id,
-      }).lean();
-      const user_response = await User.findById(
-        exchange_response.user_id
-      ).lean();
-      const blockchain_buyer_response = await connect.getFileForBuyer(
-        response._id,
-        user_response.name
-      );
-      response.cid = blockchain_buyer_response;
-    }
     res.send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
+const GetPatientCID = async (req, res) => {
+  const { report_id } = req.params;
+  const { user_id } = req.cookies;
+  try {
+    const response = await Report.findById(report_id).lean();
+    const cid = await connect.getFileForOwner(
+      response._id,
+      user_id
+    );
+    res.send(cid);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
+const GetBuyerCID = async (req, res) => {
+  const { report_id } = req.params;
+  const { user_id } = req.cookies;
+  try {
+    const response = await Report.findById(report_id).lean();
+    const cid = await connect.getFileForBuyer(
+      response._id,
+      user_id
+    );
+    res.send(cid);
   } catch (err) {
     console.error(err);
     res.status(400).send(err.message);
@@ -248,4 +260,6 @@ module.exports = {
   GetPatientReports,
   GetBuyerReports,
   GetReport,
+  GetPatientCID,
+  GetBuyerCID,
 };

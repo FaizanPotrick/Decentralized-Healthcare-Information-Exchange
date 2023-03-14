@@ -37,7 +37,6 @@ const Dashboard = () => {
         setLoading(true);
         try {
           const { data } = await axios.get(`/api/report/${cookies.user_type}`);
-          console.log(data);
           setReports(data);
         } catch (error) {
           console.log(error);
