@@ -242,7 +242,7 @@ const BlockChain_Report_Upload = async (id, user_id, CID) => {
 };
 
 const Blockchain_ReportForSale = async (id, owner) => {
-  const tx = await connect.fileForSale(id, owner);
+  const tx = await connect.fileForSale(id, owner, options);
   console.log(await tx, "Report for sale");
 };
 
