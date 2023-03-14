@@ -25,11 +25,26 @@ const Landing = () => {
           >
             Login
           </Link>
+
           <Link
-            to="/register"
+            to="/registration/doctor"
             className="inline-flex items-center text-white bg-purple-500 space-x-3 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md  text-base mt-4 md:mt-0"
           >
-            SignUp
+            Doctor
+          </Link>
+
+          <Link
+            to="/registration/patient"
+            className="inline-flex items-center text-white bg-purple-500 space-x-3 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md  text-base mt-4 md:mt-0"
+          >
+            Patient
+          </Link>
+
+          <Link
+            to="/registration/buyer"
+            className="inline-flex items-center text-white bg-purple-500 space-x-3 border-0 py-2 px-4 focus:outline-none hover:bg-purple-600 rounded-md  text-base mt-4 md:mt-0"
+          >
+            Buyer
           </Link>
         </div>
       </header>
