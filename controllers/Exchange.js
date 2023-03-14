@@ -16,12 +16,13 @@ const PatientReportExchange = async (req, res) => {
     const cart_response = await Cart.find({ user_id }).lean();
     const user_response = await User.findById(user_id).lean();
     cart_response.forEach(async (item) => {
+      const report_response = await Report.findById( item.report_id).lean();
       const exchange_response = new Exchange({
         user_id,
         report_id: item.report_id,
       });
       await exchange_response.validate();
-      // await Blockchain_SellReport(user_response.name, user_id, exchange_response.report_id);
+      await Blockchain_SellReport( report_response.patient_id, user_response._id, exchange_response.report_id);
       await exchange_response.save();
       await Cart.findByIdAndDelete(item._id);
     });
@@ -33,7 +34,7 @@ const PatientReportExchange = async (req, res) => {
 };
 
 const Blockchain_SellReport = async (owner, user_id, report_id) => {
-  const tx = await connect.sell(owner, user_id, report_id);
+  const tx = await connect.sell(owner, user_id, report_id, options);
   console.log(await tx, "Report sold successfully");
 };
 
