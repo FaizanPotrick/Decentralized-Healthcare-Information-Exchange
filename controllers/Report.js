@@ -140,6 +140,11 @@ const GetAllReports = async (req, res) => {
   try {
     const response = await Report.aggregate([
       {
+        $match: {
+          price: { $exists: true },
+        },
+      },
+      {
         $lookup: {
           from: "users",
           localField: "patient_id",

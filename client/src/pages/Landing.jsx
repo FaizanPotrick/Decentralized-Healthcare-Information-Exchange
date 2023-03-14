@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { StateContext } from "../context/StateContext";
-import ImageLight from "../assets/img/login-image.png";
+import ImageLight from "../assets/login-image.png";
 import { Link } from "react-router-dom";
 import logo from "../icons/logo.png";
 

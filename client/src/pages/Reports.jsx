@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StateContext } from "../context/StateContext";
 import ReportCard from "../components/ReportCard";
 import Header from "../components/Header";
@@ -6,8 +6,12 @@ import Cart from "../components/Cart";
 
 const Reports = () => {
   const { reports } = useContext(StateContext);
-  const [search, setSearch] = useState(reports);
+  const [search, setSearch] = useState([]);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setSearch(reports);
+  }, [reports]);
 
   return (
     <>
