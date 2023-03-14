@@ -69,9 +69,23 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                 </td>
                 <td className="px-6 py-4">{item.date.substring(0, 10)}</td>
                 <td className="px-6 py-4 uppercase flex justify-center">
-                  <div className="bg-red-300 rounded-md px-3 text-black w-fit">
+                  <div
+                    className={`rounded-md px-3 text-black w-fit ${
+                      item.criticality === "low"
+                        ? "bg-green-300"
+                        : item.criticality === "medium"
+                        ? "bg-yellow-300"
+                        : item.criticality === "high"
+                        ? "bg-red-200"
+                        : ""
+                    }`}
+                  >
                     {item.criticality}
                   </div>
+
+                  {/* <div className="bg-red-300 rounded-md px-3 text-black w-fit">
+                    {item.criticality}
+                  </div> */}
                 </td>
                 {cookies.user_type === "patient" && (
                   <td className="px-6 py-4">

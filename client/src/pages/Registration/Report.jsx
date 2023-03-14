@@ -80,7 +80,7 @@ const Report = () => {
     formData.append("price", register.price);
     formData.append("report", reportFile);
     try {
-      await axios.post(`/api/registration/report/${type_of_user}`, formData);
+     const {data} = await axios.post(`/api/registration/report/${type_of_user}`, formData);
       setRegister({
         patient_id: "",
         name: "",
@@ -94,6 +94,11 @@ const Report = () => {
       });
       setReportFile(null);
       navigate("/dashboard");
+      setAlert({
+        isAlert: true,
+        type: "successfully uploaded",
+        message: data,
+      });
     } catch (error) {
       setAlert({
         isAlert: true,
