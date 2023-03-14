@@ -1,12 +1,13 @@
+import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from "../icons";
 import React, { useState, useEffect, useContext } from "react";
 import { StateContext } from "../context/StateContext";
+import { Link, useNavigate } from "react-router-dom";
 import InfoCard from "../components/InfoCard";
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from "../icons";
+import Report from "./Registration/Report";
+import { useCookies } from "react-cookie";
 import Header from "../components/Header";
 import Table from "../components/Table";
-import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import Report from "./Registration/Report";
+import Cart from "../components/Cart";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [reFetched, setReFetched] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!isLogin) {
@@ -56,7 +58,7 @@ const Dashboard = () => {
         <Report />
       ) : (
         <div className="container mx-auto">
-          <Header />
+          <Header setOpen={setOpen} />
           <div className="flex justify-end">
             {cookies.user_type != "buyer" && (
               <Link
@@ -90,17 +92,16 @@ const Dashboard = () => {
               "Disease",
               "Date",
               "Criticality",
-              "Price",
-              "",
-              "",
-              "",
+              `${cookies.user_type === "patient" ? "Price" : ""}`,
             ]}
             value={reports}
             setReFetched={setReFetched}
             reFetched={reFetched}
+            cookies={cookies}
           />
         </div>
       )}
+      <Cart open={open} setOpen={setOpen} />
     </>
   );
 };

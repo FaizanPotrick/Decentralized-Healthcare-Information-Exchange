@@ -3,7 +3,7 @@ import download from "../icons/download.png";
 import Price from "./Price";
 import axios from "axios";
 
-const Table = ({ head, value, setReFetched, reFetched }) => {
+const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
   const [isPrice, setIsPrice] = useState({
     isPrice: false,
     report_id: "",
@@ -37,7 +37,7 @@ const Table = ({ head, value, setReFetched, reFetched }) => {
               <tr className="bg-white border-b" key={index}>
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowra"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                 >
                   {item.name}
                 </th>
@@ -48,35 +48,41 @@ const Table = ({ head, value, setReFetched, reFetched }) => {
                     {item.criticality}
                   </div>
                 </td>
-                <td className="px-6 py-4">
-                  {item.price ? `$${item.price}` : "-"}
-                </td>
-                <td className="px-6 py-4">
-                  <button
-                    className="font-medium text-blue-600 hover:underline"
-                    onClick={() => {
-                      setIsPrice({
-                        isPrice: true,
-                        report_id: item._id,
-                      });
-                    }}
-                  >
-                    Update Price
-                  </button>
-                </td>
+                {cookies.user_type === "patient" && (
+                  <td className="px-6 py-4">
+                    {item.price ? `$${item.price}` : "-"}
+                  </td>
+                )}
+                {cookies.user_type === "patient" && (
+                  <td className="px-6 py-4">
+                    <button
+                      className="font-medium text-blue-600 hover:underline"
+                      onClick={() => {
+                        setIsPrice({
+                          isPrice: true,
+                          report_id: item._id,
+                        });
+                      }}
+                    >
+                      Update Price
+                    </button>
+                  </td>
+                )}
                 <td className="px-6 py-4">
                   <img className="w-5 h-5 cursor-pointer" src={download} />
                 </td>
-                <td className="px-6 py-4">
-                  <button
-                    className="font-medium text-blue-600 hover:underline"
-                    onClick={() => {
-                      DeleteReport(item._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+                {cookies.user_type === "patient" && (
+                  <td className="px-6 py-4">
+                    <button
+                      className="font-medium text-blue-600 hover:underline"
+                      onClick={() => {
+                        DeleteReport(item._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             );
           })}
