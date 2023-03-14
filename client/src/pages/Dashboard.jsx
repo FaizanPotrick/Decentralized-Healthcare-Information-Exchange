@@ -59,28 +59,10 @@ const Dashboard = () => {
       ) : (
         <div className="container mx-auto">
           <Header setOpen={setOpen} />
-          <div className="flex justify-end">
-            {cookies.user_type != "buyer" && (
-              <Link
-                className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
-                to="/registration/report"
-              >
-                Upload Reports
-              </Link>
-            )}
-            {cookies.user_type == "buyer" && (
-              <Link
-                className="btn bg-purple-500  hover:bg-purple-400 mr-4 px-2 py-2 rounded-md text-white"
-                to="/registration/report"
-              >
-                Go To Exchange
-              </Link>
-            )}
-            {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
+          {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Redeem
         </Link> */}
-          </div>
-          <div className="flex items-center gap-6 my-6">
+          <div className="flex items-center gap-6 mb-6 mt-10">
             <InfoCard title="Available Reports" value="60" icon={PeopleIcon} />
             <InfoCard title="For Sale" value="5" icon={MoneyIcon} />
             <InfoCard title="Sold" value="20" icon={CartIcon} />

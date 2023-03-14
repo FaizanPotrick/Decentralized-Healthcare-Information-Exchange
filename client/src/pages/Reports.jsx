@@ -17,8 +17,8 @@ const Reports = () => {
     <>
       <Header setOpen={setOpen} />
       <div className="flex justify-center items-center flex-col mx-2 md:mx-5 lg:mx-8">
-        <div className="mx-auto max-w-9xl w-full">
-          <div className="flex justify-around items-center w-full mt-10 mb-5">
+        <div className="mx-auto max-w-[86rem] w-full">
+          <div className="flex justify-between items-center w-full mt-10 mb-5">
             <div className="text-3xl font-semibold">Exchange</div>
             <div className="flex gap-2">
               <div className="relative hidden md:block w-full max-w-xl">
@@ -69,7 +69,7 @@ const Reports = () => {
               </svg>
             </div>
           </div>
-          <div className="flex justify-center flex-wrap gap-4 w-full">
+          <div className="flex justify-start flex-wrap gap-4 w-full">
             {search.map((report) => (
               <ReportCard
                 key={report._id}

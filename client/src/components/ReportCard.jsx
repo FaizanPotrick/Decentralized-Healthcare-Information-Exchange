@@ -20,7 +20,12 @@ const ReportCard = ({
   const [cookies] = useCookies(["user_id"]);
   const AddToCart = async () => {
     try {
-      await axios.get(`/api/registration/cart/add/${_id}`);
+      const { data } = await axios.get(`/api/registration/cart/add/${_id}`);
+      setAlert({
+        isAlert: true,
+        type: "success",
+        message: data,
+      });
     } catch (err) {
       console.log(err);
       setAlert({
@@ -31,7 +36,7 @@ const ReportCard = ({
     }
   };
   return (
-    <div className="flex flex-col justify-around h-full w-full max-w-md border border-gray-200/80 shadow-lg rounded-lg p-3 md:p-4 bg-white">
+    <div className="relative flex flex-col justify-around h-full w-full max-w-md border border-gray-200/80 shadow-lg rounded-lg p-3 md:p-4 bg-white">
       <div className="flex justify-between items-start">
         <div className="flex flex-col">
           <div className="relative text-slate-900 text-xl md:text-2xl font-semibold">
@@ -70,9 +75,20 @@ const ReportCard = ({
         {cookies.user_type == "buyer" && isLogin && (
           <button
             onClick={AddToCart}
-            className="bg-yellow-100/40 rounded-lg shadow px-3.5 py-0.5 font-medium"
+            className="rounded-full bg-yellow-50 text-black border border-gray-300/30 shadow w-10 h-10 hover:scale-110 duration-300 absolute -top-2.5 -right-2.5"
           >
-            Add to Cart
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="h-7 w-7 stroke-current m-auto"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
           </button>
         )}
       </div>

@@ -21,7 +21,7 @@ const Report = () => {
     date: "",
     price: "",
   });
-  const [reportFile, setReportFile] = useState({});
+  const [reportFile, setReportFile] = useState(null);
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
@@ -85,14 +85,14 @@ const Report = () => {
         patient_id: "",
         name: "",
         description: "",
-        age: "",
+        patient_age: "",
         type: "",
         disease: "",
         criticality: "",
         date: "",
         price: "",
       });
-      setReportFile({});
+      setReportFile(null);
       navigate("/dashboard");
     } catch (error) {
       setAlert({
