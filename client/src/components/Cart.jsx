@@ -129,7 +129,7 @@ const Cart = ({ open, setOpen }) => {
                                         </p>
                                       </div>
                                       <p className="mt-1 text-sm text-gray-500">
-                                        {product.patient.name} -
+                                        {product.patient.name} -{" "}
                                         {product.report.patient_age}
                                       </p>
                                     </div>

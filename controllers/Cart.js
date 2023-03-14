@@ -5,6 +5,13 @@ const AddToCart = async (req, res) => {
   const { report_id } = req.params;
   const { user_id } = req.cookies;
   try {
+    const cart_response = await Cart.findOne({
+      user_id,
+      report_id,
+    });
+    if (cart_response) {
+      return res.send("Successfully Added");
+    }
     await Cart.create({
       user_id,
       report_id,

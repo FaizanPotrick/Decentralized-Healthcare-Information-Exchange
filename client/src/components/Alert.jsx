@@ -18,7 +18,7 @@ const Alert = () => {
           alert.type === "error" ? "text-red-800" : "text-green-800"
         } border ${
           alert.type === "error" ? "border-red-300" : "border-green-300"
-        } rounded-lg bg-red-50`}
+        } rounded-lg ${alert.type === "error" ? "bg-red-50" : "bg-green-50"}`}
       >
         <div>{alert.message}</div>
       </div>
