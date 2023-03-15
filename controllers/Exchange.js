@@ -1,8 +1,8 @@
 const Exchange = require("../models/Exchange");
 const { ethers } = require("ethers");
 const { wallet, my_contract } = require("../wallet");
-const User = require("../models/User");
 const Cart = require("../models/Cart");
+const Report = require("../models/Report");
 
 const options = {
   gasLimit: 3000000,
@@ -14,15 +14,14 @@ const PatientReportExchange = async (req, res) => {
   const { user_id } = req.cookies;
   try {
     const cart_response = await Cart.find({ user_id }).lean();
-    const user_response = await User.findById(user_id).lean();
     cart_response.forEach(async (item) => {
-      const report_response = await Report.findById( item.report_id).lean();
+      const report_response = await Report.findById(item.report_id).lean();
       const exchange_response = new Exchange({
         user_id,
         report_id: item.report_id,
       });
       await exchange_response.validate();
-      await Blockchain_SellReport( report_response.patient_id, user_response._id, exchange_response.report_id);
+      await Blockchain_SellReport(report_response.patient_id.toString(), user_id, exchange_response.report_id);
       await exchange_response.save();
       await Cart.findByIdAndDelete(item._id);
     });

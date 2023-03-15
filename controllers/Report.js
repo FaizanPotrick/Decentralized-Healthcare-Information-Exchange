@@ -222,13 +222,17 @@ const GetPatientCID = async (req, res) => {
 
 const GetBuyerCID = async (req, res) => {
   const { report_id } = req.params;
-  const { user_id } = req.cookies;
+  // const { user_id } = req.cookies;
   try {
     const response = await Report.findById(report_id).lean();
-    const cid = await connect.getFileForBuyer(
+    const cid = await connect.getFileForOwner(
       response._id,
-      user_id
+      response.patient_id.toString(),
     );
+    // const cid = await connect.getFileForBuyer(
+    //   response._id,
+    //   user_id
+    // );
     res.send(cid);
   } catch (err) {
     console.error(err);
