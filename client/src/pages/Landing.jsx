@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { StateContext } from "../context/StateContext";
 import ImageLight from "../assets/login-image.png";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.jpg";
+import homelogo from "../assets/logo2.png"
 import "../index.css";
 const Landing = () => {
   const { isLogin } = useContext(StateContext);
   return (
     <div>
       <header className="text-gray-600 body-font w-full flex flex-wrap justify-around items-center mt-5">
-        <img className="h-20 mt-2" src={logo} />
+        <img className="h-20 mt-2" src={homelogo} />
         <div className="flex gap-4">
           {isLogin && (
             <Link
