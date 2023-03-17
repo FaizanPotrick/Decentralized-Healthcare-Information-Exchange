@@ -56,11 +56,11 @@ const ReportCard = ({
         />
       </div>
       <div className="flex gap-2 my-2 md:my-2.5 font-semibold capitalize">
-        <div className="bg-green-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-green-700">
+        <div className=" rounded-lg shadow text-xs md:text-sm px-3.5 py-1 ">
           {disease.split(",")[0]}
         </div>
         {disease.split(",")[1] && (
-          <div className="bg-gray-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-gray-700">
+          <div className=" rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-gray-700">
             {disease.split(",")[1]}
           </div>
         )}
@@ -69,9 +69,22 @@ const ReportCard = ({
         <div className="text-xl md:text-2xl font-bold text-gray-900">
           ${price}
         </div>
-        <div className="bg-red-200 rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-red-700 uppercase">
+        {/* <div className="rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase">
+          {criticality}
+        </div> */}
+
+        <div
+          className={`rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase ${
+            criticality === "high"
+              ? "bg-red-200"
+              : criticality === "medium"
+              ? "bg-yellow-300"
+              : "bg-green-300"
+          }`}
+        >
           {criticality}
         </div>
+
         {cookies.user_type == "buyer" && isLogin && (
           <button
             onClick={AddToCart}
