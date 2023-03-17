@@ -110,7 +110,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                     </button> */}
 
                     <button
-                      className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                      className="flex items-center space-x-2 font-medium text-purple-800 hover:underline"
                       onClick={() => {
                         setIsPrice({
                           isPrice: true,
@@ -124,15 +124,10 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                   </td>
                 )}
                 <td className="px-6 py-4">
-                  <button
-                    className="font-medium text-blue-600 hover:underline"
-                    onClick={() => GetCID(item._id)}
-                  >
-                    View
-                  </button>
+                 
 
                   <button
-                    className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                    className="flex items-center space-x-2 font-medium text-purple-800 hover:underline"
                     onClick={() => GetCID(item._id)}
                   >
                     <AiOutlineEye className="w-4 h-4" />
@@ -150,7 +145,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                       Delete
                     </button> */}
                     <button
-                      className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                      className="flex items-center space-x-2 font-medium text-purple-800 hover:underline"
                       onClick={() => {
                         DeleteReport(item._id);
                       }}
