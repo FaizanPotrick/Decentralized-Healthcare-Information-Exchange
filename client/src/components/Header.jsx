@@ -2,7 +2,7 @@ import { StateContext } from "../context/StateContext";
 import { useCookies } from "react-cookie";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.jpg";
+import homelogo from "../assets/logo2.png";
 import axios from "axios";
 
 function Header({ setOpen }) {
@@ -22,7 +22,7 @@ function Header({ setOpen }) {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <Link to="/" className="flex items-center">
-          <img src={logo} className="h-9 mr-3 sm:h-14" alt="logo" />
+          <img src={homelogo} className="h-9 mr-3 sm:h-14" alt="logo" />
         </Link>
         <div className="flex items-center justify-between w-full md:w-auto md:order-1">
           <ul className="flex items-center p-4 rounded-lg gap-4 bg-white">
