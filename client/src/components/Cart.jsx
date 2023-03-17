@@ -142,7 +142,7 @@ const Cart = ({ open, setOpen }) => {
                                       <div className="flex justify-between text-base font-medium text-gray-900">
                                         <h3>{product.report.name}</h3>
                                         <p className="ml-4">
-                                          ${product.report.price}
+                                        ₹{product.report.price}
                                         </p>
                                       </div>
                                       <p className="mt-1 text-sm text-gray-500">
@@ -176,7 +176,7 @@ const Cart = ({ open, setOpen }) => {
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>${totalPrice}</p>
+                        <p>₹{totalPrice}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Exchange and taxes calculated at checkout.
