@@ -67,7 +67,7 @@ const ReportCard = ({
       </div>
       <div className="flex items-center justify-between">
         <div className="text-xl md:text-2xl font-bold text-gray-900">
-          ${price}
+        ₹{price}
         </div>
         {/* <div className="rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase">
           {criticality}
