@@ -37,7 +37,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg border">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <thead className="text-xs text-gray-700 uppercase ">
           <tr className="border-b text-center">
             {head.map((item, index) => {
               return (
@@ -60,7 +60,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                 </th>
                 <td className="px-6 py-4 capitalize">
                   <div className="flex justify-center gap-2 capitalize">
-                    <div className="bg-green-200 rounded-md px-3 text-green-700 w-fit">
+                    <div className=" rounded-md px-3  w-fit">
                       {item.disease.split(",")[0]}
                     </div>
                     {item.disease.split(",")[1] && (
@@ -92,7 +92,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                 </td>
                 {cookies.user_type === "patient" && (
                   <td className="px-6 py-4">
-                    {item.price ? `$${item.price}` : "-"}
+                    {item.price ? `₹${item.price}` : "-"}
                   </td>
                 )}
                 {cookies.user_type === "patient" && (
