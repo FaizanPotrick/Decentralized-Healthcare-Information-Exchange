@@ -210,7 +210,7 @@ const Report = () => {
                     <option selected value="">
                       Criticality Level
                     </option>
-                    <option value="high">Hgh</option>
+                    <option value="high">High</option>
                     <option value="medium">Medium</option>
                     <option value="low">Low</option>
                   </select>
