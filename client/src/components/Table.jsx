@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Price from "./Price";
 import axios from "axios";
+import { AiOutlineEye } from "react-icons/ai";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { RiPencilLine } from "react-icons/ri";
 
 const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
   const [isPrice, setIsPrice] = useState({
@@ -94,7 +97,7 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                 )}
                 {cookies.user_type === "patient" && (
                   <td className="px-6 py-4">
-                    <button
+                    {/* <button
                       className="font-medium text-blue-600 hover:underline"
                       onClick={() => {
                         setIsPrice({
@@ -104,26 +107,61 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                       }}
                     >
                       Update Price
+                    </button> */}
+
+                    <button
+                      className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                      onClick={() => {
+                        setIsPrice({
+                          isPrice: true,
+                          report_id: item._id,
+                        });
+                      }}
+                    >
+                      <RiPencilLine className="w-4 h-4" />
+                      {/* <span>Update Price</span> */}
                     </button>
                   </td>
                 )}
                 <td className="px-6 py-4">
-                  <button
+                  {/* <button
                     className="font-medium text-blue-600 hover:underline"
                     onClick={() => GetCID(item._id)}
                   >
                     View
+                  </button> */}
+
+                  <button
+                    className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                    onClick={() => {
+                      setIsPrice({
+                        isPrice: true,
+                        report_id: item._id,
+                      });
+                    }}
+                  >
+                    <AiOutlineEye className="w-4 h-4" />
+                    {/* <span>Update Price</span> */}
                   </button>
                 </td>
                 {cookies.user_type === "patient" && (
                   <td className="px-6 py-4">
-                    <button
+                    {/* <button
                       className="font-medium text-blue-600 hover:underline"
                       onClick={() => {
                         DeleteReport(item._id);
                       }}
                     >
                       Delete
+                    </button> */}
+                    <button
+                      className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
+                      onClick={() => {
+                        DeleteReport(item._id);
+                      }}
+                    >
+                      <RiDeleteBinLine className="w-4 h-4" />
+                      {/* <span>Delete</span> */}
                     </button>
                   </td>
                 )}
