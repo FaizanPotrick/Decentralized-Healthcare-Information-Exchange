@@ -124,21 +124,16 @@ const Table = ({ head, value, setReFetched, reFetched, cookies }) => {
                   </td>
                 )}
                 <td className="px-6 py-4">
-                  {/* <button
+                  <button
                     className="font-medium text-blue-600 hover:underline"
                     onClick={() => GetCID(item._id)}
                   >
                     View
-                  </button> */}
+                  </button>
 
                   <button
                     className="flex items-center space-x-2 font-medium text-blue-600 hover:underline"
-                    onClick={() => {
-                      setIsPrice({
-                        isPrice: true,
-                        report_id: item._id,
-                      });
-                    }}
+                    onClick={() => GetCID(item._id)}
                   >
                     <AiOutlineEye className="w-4 h-4" />
                     {/* <span>Update Price</span> */}
