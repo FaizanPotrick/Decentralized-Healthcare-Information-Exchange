@@ -9,7 +9,7 @@ const Landing = () => {
   return (
     <div>
       <header className="text-gray-600 body-font w-full flex flex-wrap justify-around items-center mt-5">
-        <img className="h-20 mt-2" src={homelogo} />
+        <img className="h-15 mt-2"  src={homelogo} />
         <div className="flex gap-4">
           {isLogin && (
             <Link
@@ -77,13 +77,13 @@ const Landing = () => {
           </div>
         </div>
       </header>
-      <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center max-h-screen overflow-hidden">
-        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 overflow-hidden">
+      <div className="container mx-auto flex px-15 py-10 md:flex-row flex-col items-center max-h-screen overflow-hidden">
+        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 overflow-hidden ml-32">
           <img
             className="object-cover object-center rounded"
             alt="hero"
-            width={400}
-            height={100}
+            width={450}
+            height={50}
             src={ImageLight}
           />
         </div>
