@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Table from "../components/Table";
 import Cart from "../components/Cart";
 import axios from "axios";
+import revenue from "../icons/revenue.png";
 
 const Dashboard = () => {
   const { isLogin, setAlert, setLoading } = useContext(StateContext);
@@ -65,8 +66,10 @@ const Dashboard = () => {
             <InfoCard title="Available Reports" value="60" icon={PeopleIcon} />
             <InfoCard title="For Sale" value="5" icon={MoneyIcon} />
             <InfoCard title="Sold" value="20" icon={CartIcon} />
-            <InfoCard title="Revenue" value="$64" icon={ChatIcon} />
+            <InfoCard title="Revenue" value="₹64" icon={ChatIcon} />
+            {/* <img className="h-20 mt-2" src={revenue} /> */}
           </div>
+
           <Table
             head={[
               "Report Name",
