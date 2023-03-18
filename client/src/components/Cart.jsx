@@ -126,7 +126,7 @@ const Cart = ({ open, setOpen }) => {
                             {reports.map((product) => {
                               return (
                                 <li key={product._id} className="flex py-4">
-                                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
+                                  {/* <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
                                     <img
                                       src={
                                         product.report.type == "pdf"
@@ -136,30 +136,30 @@ const Cart = ({ open, setOpen }) => {
                                       alt="product"
                                       className="h-full w-full object-cover object-center"
                                     />
-                                  </div>
+                                  </div> */}
                                   <div className="ml-4 flex flex-1 flex-col">
                                     <div>
                                       <div className="flex justify-between text-base font-medium text-gray-900">
                                         <h3>{product.report.name}</h3>
                                         <p className="ml-4">
-                                        ₹{product.report.price}
+                                          ₹{product.report.price}
                                         </p>
                                       </div>
-                                      <p className="mt-1 text-sm text-gray-500">
+                                      {/* <p className="mt-1 text-sm text-gray-500">
                                         {product.patient.name} -{" "}
                                         {product.report.patient_age}
-                                      </p>
+                                      </p> */}
                                     </div>
                                     <div className="flex flex-1 items-end justify-between text-sm">
-                                      <p className="text-gray-500 uppercase">
+                                      {/* <p className="text-gray-500 uppercase">
                                         {product.report.type}
-                                      </p>
+                                      </p> */}
                                       <div className="flex">
                                         <button
                                           onClick={() =>
                                             RemoveFromCart(product._id)
                                           }
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="font-medium text-purple-600 hover:text-purple-500 hover:underline hover:decoration-purple-500"
                                         >
                                           Remove
                                         </button>
@@ -184,7 +184,7 @@ const Cart = ({ open, setOpen }) => {
                       <div className="mt-6">
                         <button
                           onClick={Purchase}
-                          className="w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 font-medium text-white shadow hover:bg-indigo-700"
+                          className="w-full rounded-md border border-transparent bg-purple-500 px-6 py-3 font-medium text-white shadow hover:bg-purple-600"
                         >
                           Purchase
                         </button>
