@@ -56,18 +56,18 @@ const ReportCard = ({
         />
       </div>
       <div className="flex gap-2 my-2 md:my-2.5 font-semibold capitalize">
-        <div className=" rounded-lg shadow text-xs md:text-sm px-3.5 py-1 ">
+        <div className=" bg-purple-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 ">
           {disease.split(",")[0]}
         </div>
         {disease.split(",")[1] && (
-          <div className=" rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-gray-700">
+          <div className="bg-purple-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-gray-700">
             {disease.split(",")[1]}
           </div>
         )}
       </div>
       <div className="flex items-center justify-between">
         <div className="text-xl md:text-2xl font-bold text-gray-900">
-        ₹{price}
+          ₹{price}
         </div>
         {/* <div className="rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase">
           {criticality}
@@ -78,8 +78,8 @@ const ReportCard = ({
             criticality === "high"
               ? "bg-red-200"
               : criticality === "medium"
-              ? "bg-yellow-300"
-              : "bg-green-300"
+              ? "bg-yellow-200"
+              : "bg-green-200"
           }`}
         >
           {criticality}
