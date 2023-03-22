@@ -4,7 +4,6 @@ import StateProvider from "./context/StateContext";
 import Report from "./pages/Registration/Report";
 import PageNotFound from "./pages/PageNotFound";
 import { CookiesProvider } from "react-cookie";
-import { Windmill } from "@windmill/react-ui";
 import Loading from "./components/Loading";
 import Dashboard from "./pages/Dashboard";
 import React, { Suspense } from "react";
@@ -14,6 +13,8 @@ import Landing from "./pages/Landing";
 import Reports from "./pages/Reports";
 import Login from "./pages/Login";
 import "./index.css";
+import { ColorSchemeProvider, MantineProvider, Paper } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 
 const router = createBrowserRouter([
   {
@@ -58,15 +59,43 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Suspense fallback={<Loading pageLoading={true} />}>
-      <Windmill usePreferences>
-        <CookiesProvider>
-          <StateProvider>
-            <RouterProvider router={router} />
-            <Loading />
-            <Alert />
-          </StateProvider>
-        </CookiesProvider>
-      </Windmill>
+      <CookiesProvider>
+        <StateProvider>
+          <App />
+        </StateProvider>
+      </CookiesProvider>
     </Suspense>
   </React.StrictMode>
 );
+
+export default function App() {
+  const [colorScheme, setColorScheme] = useLocalStorage(
+    "mantine-color-scheme",
+    {
+      defaultValue: "light",
+      getInitialValueInEffect: true,
+    }
+  );
+
+  return (
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={() => {
+        setColorScheme(colorScheme === "dark" ? "light" : "dark");
+      }}
+    >
+      <MantineProvider theme={{ colorScheme, loader: "bars" }}>
+        <Paper
+          radius={0}
+          sx={{
+            position: "relative",
+          }}
+        >
+          <RouterProvider router={router} />
+          <Loading />
+          <Alert />
+        </Paper>
+      </MantineProvider>
+    </ColorSchemeProvider>
+  );
+}
