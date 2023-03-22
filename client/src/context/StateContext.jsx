@@ -5,7 +5,11 @@ import axios from "axios";
 export const StateContext = createContext();
 
 const StateProvider = ({ children }) => {
-  const [alert, setAlert] = useState({ isAlert: false, type: "", message: "" });
+  const [alert, setAlert] = useState({
+    isAlert: false,
+    type: "",
+    message: "",
+  });
   const [cookies] = useCookies(["user_id"]);
   const [isLogin, setIsLogin] = useState(cookies.user_id ? true : false);
   const [loading, setLoading] = useState(false);
@@ -29,6 +33,11 @@ const StateProvider = ({ children }) => {
     })();
   }, []);
 
+  const Logout = async () => {
+    await axios.get("/api/logout");
+    setIsLogin(false);
+  };
+
   return (
     <StateContext.Provider
       value={{
@@ -40,6 +49,7 @@ const StateProvider = ({ children }) => {
         setIsLogin,
         reports,
         setReports,
+        Logout,
       }}
     >
       {children}

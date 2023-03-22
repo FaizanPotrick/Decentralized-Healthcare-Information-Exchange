@@ -1,29 +1,36 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { StateContext } from "../context/StateContext";
+import { Alert } from "@mantine/core";
 
-const Alert = () => {
+const IsAlert = () => {
   const { alert, setAlert } = useContext(StateContext);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAlert({ isAlert: false, type: "", message: "" });
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [alert]);
 
   return (
     alert.isAlert && (
       <div
-        className={`z-50 fixed bottom-4 left-4 flex p-4 text-sm ${
-          alert.type === "error" ? "text-red-800" : "text-green-800"
-        } border ${
-          alert.type === "error" ? "border-red-300" : "border-green-300"
-        } rounded-lg ${alert.type === "error" ? "bg-red-50" : "bg-green-50"}`}
+        style={{
+          position: "fixed",
+          bottom: "0",
+          left: "0",
+          zIndex: "9999",
+          marginBottom: "1rem",
+          marginLeft: "1rem",
+        }}
       >
-        <div>{alert.message}</div>
+        <Alert
+          color={alert.type === "error" ? "red" : "green"}
+          sx={{
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          }}
+          w={200}
+          withCloseButton
+          onClose={() => setAlert({ isAlert: false, type: "", message: "" })}
+        >
+          {alert.message}
+        </Alert>
       </div>
     )
   );
 };
 
-export default Alert;
+export default IsAlert;
