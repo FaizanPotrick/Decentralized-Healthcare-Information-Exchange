@@ -1,16 +1,39 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { StateContext } from "../context/StateContext";
-import ImageLight from "../assets/login-image.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "@mantine/form";
+import LightDark from "../components/LightDark";
+import {
+  TextInput,
+  PasswordInput,
+  Paper,
+  Group,
+  Button,
+  Title,
+  Anchor,
+  Stack,
+  Container,
+} from "@mantine/core";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setIsLogin, isLogin, setAlert, setLoading } =
     useContext(StateContext);
-  const [login, setLogin] = useState({
-    email_address: "",
-    password: "",
+
+  const form = useForm({
+    initialValues: {
+      email_address: "",
+      password: "",
+    },
+    validate: {
+      email_address: (val) =>
+        !val.includes("@") ? "Email address should include @" : null,
+      password: (val) =>
+        val.length <= 6
+          ? "Password should include at least 6 characters"
+          : null,
+    },
   });
 
   useEffect(() => {
@@ -19,72 +42,98 @@ const Login = () => {
     }
   }, [setIsLogin]);
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setLogin({ ...login, [name]: value });
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await axios.put("/api/login", login);
-      setLogin({
-        email_address: "",
-        password: "",
-      });
-      setIsLogin(true);
-      navigate("/dashboard");
-    } catch (error) {
-      setAlert({
-        isAlert: true,
-        type: "error",
-        message: error.response.data,
-      });
-    }
-    setLoading(false);
-  };
-
   return (
-    <div className="flex justify-center items-center min-h-screen p-6 bg-gray-50">
-      <div className="flex flex-col md:flex-row h-full w-full max-w-lg sm:max-w-4xl bg-white rounded-xl shadow-xl border border-gray-200/80">
-        <img
-          className="object-contain w-full rounded-l-xl h-auto md:w-1/2 hidden md:block"
-          src={ImageLight}
-          alt="logo"
-        />
-        <main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-          <form className="w-full" onSubmit={onSubmit}>
-            <h1 className="mb-4 text-xl font-semibold text-gray-700">Login</h1>
-            <div>
-              <label className="input_label">Email Address</label>
-              <input
-                className="input_field"
-                type="email"
-                name="email_address"
-                value={login.email_address}
-                onChange={onChange}
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        flexDirection: "column",
+        width: "100%",
+      }}
+    >
+      <Group
+        position="apart"
+        h={70}
+        px="xl"
+        sx={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Anchor
+          href="/"
+          c="cyan"
+          sx={{
+            ":hover": {
+              textDecoration: "none",
+            },
+          }}
+        >
+          <Title c="cyan">DHIE</Title>
+        </Anchor>
+        <LightDark />
+      </Group>
+      <Container my="auto">
+        <Paper radius="md" p="xl" withBorder w={"25rem"}>
+          <Title
+            align="center"
+            mb={20}
+            sx={(theme) => ({
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 600,
+            })}
+          >
+            Login
+          </Title>
+          <form
+            onSubmit={form.onSubmit(async (val) => {
+              setLoading(true);
+              try {
+                await axios.put("/api/login", val);
+                form.reset();
+                setIsLogin(true);
+                navigate("/dashboard");
+              } catch (error) {
+                setAlert({
+                  isAlert: true,
+                  type: "error",
+                  message: error.response.data,
+                });
+              }
+              setLoading(false);
+            })}
+          >
+            <Stack>
+              <TextInput
+                placeholder="Email address"
+                label="Email address"
+                value={form.values.email_address}
+                onChange={(event) =>
+                  form.setFieldValue("email_address", event.currentTarget.value)
+                }
+                error={form.errors.email_address && "Invalid email address"}
                 required
               />
-            </div>
-            <div className="mt-4">
-              <label className="input_label">Password</label>
-              <input
-                className="input_field"
-                type="password"
-                name="password"
-                value={login.password}
-                onChange={onChange}
-                autoComplete="off"
+              <PasswordInput
+                placeholder="Password"
+                label="Password"
+                value={form.values.password}
+                onChange={(event) =>
+                  form.setFieldValue("password", event.target.value)
+                }
+                error={form.errors.password && "Invalid password"}
+                withAsterisk
                 required
               />
-            </div>
-            <button type="submit" className="input_button">
+            </Stack>
+            <Button type="submit" radius="md" fullWidth color="cyan" mt={20}>
               Login
-            </button>
+            </Button>
           </form>
-        </main>
-      </div>
+        </Paper>
+      </Container>
     </div>
   );
 };
