@@ -1,15 +1,10 @@
-import React, { useState } from "react";
-import Price from "./Price";
-import axios from "axios";
+import { IconEye, IconTrash } from "@tabler/icons-react";
 import { Table, Badge, ActionIcon } from "@mantine/core";
-import { IconEye, IconTrash, IconCoinRupee } from "@tabler/icons-react";
+import PriceModal from "./Price";
+import React from "react";
+import axios from "axios";
 
 const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
-  const [isPrice, setIsPrice] = useState({
-    isPrice: false,
-    report_id: "",
-  });
-
   const DeleteReport = async (report_id) => {
     try {
       await axios.get(`/api/registration/report/remove/${report_id}`);
@@ -92,17 +87,12 @@ const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
                 )}
                 {cookies.user_type === "patient" && (
                   <td>
-                    <ActionIcon
-                      color="teal"
-                      onClick={() =>
-                        setIsPrice({
-                          isPrice: true,
-                          report_id: item._id,
-                        })
-                      }
-                    >
-                      <IconCoinRupee />
-                    </ActionIcon>
+                    <PriceModal
+                      price={item.price}
+                      report_id={item._id}
+                      setReFetched={setReFetched}
+                      reFetched={reFetched}
+                    />
                   </td>
                 )}
                 <td>
@@ -125,14 +115,6 @@ const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
           })}
         </tbody>
       </Table>
-      {isPrice.isPrice && (
-        <Price
-          setIsPrice={setIsPrice}
-          isPrice={isPrice}
-          setReFetched={setReFetched}
-          reFetched={reFetched}
-        />
-      )}
     </div>
   );
 };

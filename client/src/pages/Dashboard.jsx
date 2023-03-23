@@ -1,30 +1,14 @@
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from "../icons";
 import React, { useState, useEffect, useContext } from "react";
 import { StateContext } from "../context/StateContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InfoCard from "../components/InfoCard";
 import Report from "./Registration/Report";
 import { useCookies } from "react-cookie";
+import { Container } from "@mantine/core";
 import Header from "../components/Header";
 import Table from "../components/Table";
 import Cart from "../components/Cart";
 import axios from "axios";
-import revenue from "../icons/revenue.png";
-import report from "../assets/report.png";
-import sold from "../assets/sold.png";
-import sale from "../assets/sale.png";
-import revenues from "../assets/revenue.png";
-import {
-  TextInput,
-  PasswordInput,
-  Paper,
-  Group,
-  Button,
-  Title,
-  Anchor,
-  Stack,
-  Container,
-} from "@mantine/core";
 
 const Dashboard = () => {
   const { isLogin, setAlert, setLoading } = useContext(StateContext);
@@ -86,22 +70,22 @@ const Dashboard = () => {
               data={[
                 {
                   title: "Available Reports",
-                  value: "60",
+                  value: reports.length,
                   icon: "report",
                 },
                 {
                   title: "Total Report For Sale",
-                  value: "5",
+                  value: reports.filter((item) => item.price).length,
                   icon: "sale",
                 },
                 {
                   title: "Total Report Sold",
-                  value: "5",
+                  value: "0",
                   icon: "exchange",
                 },
                 {
                   title: "Revenue",
-                  value: "5",
+                  value: "0",
                   icon: "coin",
                 },
               ]}
