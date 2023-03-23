@@ -1,16 +1,27 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useState, useEffect, useContext } from "react";
 import { StateContext } from "../context/StateContext";
 import axios from "axios";
+import { useDisclosure } from "@mantine/hooks";
+import {
+  Drawer,
+  Group,
+  Button,
+  Image,
+  ActionIcon,
+  Text,
+  Card,
+  Badge,
+} from "@mantine/core";
+import { IconShoppingCart, IconTrash } from "@tabler/icons-react";
 
-const Cart = ({ open, setOpen }) => {
+const Cart = () => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [reports, setReports] = useState([]);
   const { setLoading, setAlert } = useContext(StateContext);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    if (!open) return;
+    if (!opened) return;
     (async () => {
       setLoading(true);
       try {
@@ -31,7 +42,7 @@ const Cart = ({ open, setOpen }) => {
       }
       setLoading(false);
     })();
-  }, [open]);
+  }, [opened]);
 
   const RemoveFromCart = async (id) => {
     setLoading(true);
@@ -74,130 +85,118 @@ const Cart = ({ open, setOpen }) => {
   };
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-in-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in-out duration-500"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <>
+      <Drawer opened={opened} onClose={close} title="Shopping cart">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            marginBottom: "auto",
+            height: "100%",
+          }}
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
-        <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-              <Transition.Child
-                as={Fragment}
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+          {reports.map((product) => {
+            return (
+              <Card
+                radius="md"
+                withBorder
+                key={product._id}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                }}
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">
-                          Shopping cart
-                        </Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="-m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setOpen(false)}
-                          >
-                            <span className="sr-only">Close panel</span>
-                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="mt-8">
-                        <div className="flow-root">
-                          <ul
-                            role="list"
-                            className="-my-6 divide-y divide-gray-200"
-                          >
-                            {reports.map((product) => {
-                              return (
-                                <li key={product._id} className="flex py-4">
-                                  {/* <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-gray-200">
-                                    <img
-                                      src={
-                                        product.report.type == "pdf"
-                                          ? "x-ray.png"
-                                          : "checkup.png"
-                                      }
-                                      alt="product"
-                                      className="h-full w-full object-cover object-center"
-                                    />
-                                  </div> */}
-                                  <div className="ml-4 flex flex-1 flex-col">
-                                    <div>
-                                      <div className="flex justify-between text-base font-medium text-gray-900">
-                                        <h3>{product.report.name}</h3>
-                                        <p className="ml-4">
-                                          ₹{product.report.price}
-                                        </p>
-                                      </div>
-                                      {/* <p className="mt-1 text-sm text-gray-500">
-                                        {product.patient.name} -{" "}
-                                        {product.report.patient_age}
-                                      </p> */}
-                                    </div>
-                                    <div className="flex flex-1 items-end justify-between text-sm">
-                                      {/* <p className="text-gray-500 uppercase">
-                                        {product.report.type}
-                                      </p> */}
-                                      <div className="flex">
-                                        <button
-                                          onClick={() =>
-                                            RemoveFromCart(product._id)
-                                          }
-                                          className="font-medium text-purple-600 hover:text-purple-500 hover:underline hover:decoration-purple-500"
-                                        >
-                                          Remove
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
+                <Image
+                  src={
+                    product.report.type == "pdf" ? "x-ray.png" : "checkup.png"
+                  }
+                  height={60}
+                  width={60}
+                  alt="Norway"
+                />
+                <div
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Group position="apart">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <Text weight={500}>{product.report.name}</Text>
+                      <Badge color="pink" variant="light" size="sm">
+                        {product.report.type}
+                      </Badge>
                     </div>
-                    <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
-                      <div className="flex justify-between text-base font-medium text-gray-900">
-                        <p>Subtotal</p>
-                        <p>₹{totalPrice}</p>
-                      </div>
-                      <p className="mt-0.5 text-sm text-gray-500">
-                        Exchange and taxes calculated at checkout.
-                      </p>
-                      <div className="mt-6">
-                        <button
-                          onClick={Purchase}
-                          className="w-full rounded-md border border-transparent bg-purple-500 px-6 py-3 font-medium text-white shadow hover:bg-purple-600"
-                        >
-                          Purchase
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
+                    <Text weight={500} color="cyan">
+                      ₹{product.report.price}
+                    </Text>
+                  </Group>
+                  <Group position="apart" mt="xs">
+                    <Text weight={500} color="dimmed" size="sm">
+                      {product.patient.name} - {product.report.patient_age}
+                    </Text>
+                    <ActionIcon
+                      onClick={() => RemoveFromCart(product._id)}
+                      size="sm"
+                      c="red"
+                    >
+                      <IconTrash />
+                    </ActionIcon>
+                  </Group>
+                </div>
+              </Card>
+            );
+          })}
         </div>
-      </Dialog>
-    </Transition.Root>
+        <Group
+          sx={{
+            position: "fixed",
+            bottom: 10,
+            left: 18,
+            right: 18,
+          }}
+        >
+          <Group
+            position="apart"
+            sx={{
+              width: "100%",
+            }}
+            mb={-18}
+          >
+            <Text size="xl" fw={600}>
+              Subtotal
+            </Text>
+            <Text size="lg" fw={500} color="cyan">
+              ₹{totalPrice}
+            </Text>
+          </Group>
+          <Text size="sm" color="dimmed" mb={-4}>
+            Exchange and taxes calculated at checkout.
+          </Text>
+          <Button
+            color="cyan"
+            onClick={Purchase}
+            fullWidth
+            disabled={totalPrice === 0}
+          >
+            Purchase
+          </Button>
+        </Group>
+      </Drawer>
+      <Group position="center">
+        <ActionIcon variant="transparent" color="cyan" onClick={open}>
+          <IconShoppingCart size="50px" />
+        </ActionIcon>
+      </Group>
+    </>
   );
 };
 

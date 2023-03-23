@@ -2,12 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { StateContext } from "../context/StateContext";
 import ReportCard from "../components/ReportCard";
 import Header from "../components/Header";
-import Cart from "../components/Cart";
 
 const Reports = () => {
   const { reports } = useContext(StateContext);
   const [search, setSearch] = useState([]);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setSearch(reports);
@@ -15,7 +13,7 @@ const Reports = () => {
 
   return (
     <>
-      <Header setOpen={setOpen} />
+      <Header />
       <div className="flex justify-center items-center flex-col mx-2 md:mx-5 lg:mx-8">
         <div className="mx-auto max-w-[86rem] w-full">
           <div className="flex justify-between items-center w-full mt-10 mb-5">
@@ -80,7 +78,6 @@ const Reports = () => {
             ))}
           </div>
         </div>
-        <Cart open={open} setOpen={setOpen} />
       </div>
     </>
   );

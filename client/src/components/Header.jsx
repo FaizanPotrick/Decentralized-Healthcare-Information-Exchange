@@ -1,19 +1,12 @@
+import { Title, Button, Menu, Header, Group, Anchor } from "@mantine/core";
 import { StateContext } from "../context/StateContext";
+import { IconChevronDown } from "@tabler/icons-react";
 import { useCookies } from "react-cookie";
 import React, { useContext } from "react";
 import LightDark from "./LightDark";
-import {
-  Title,
-  Button,
-  Menu,
-  Header,
-  Group,
-  Anchor,
-  ActionIcon,
-} from "@mantine/core";
-import { IconChevronDown, IconShoppingCart } from "@tabler/icons-react";
+import Cart from "./Cart";
 
-function IsHeader({ setOpen }) {
+function IsHeader() {
   const { isLogin, Logout } = useContext(StateContext);
   const [cookies] = useCookies(["user_id"]);
 
@@ -98,17 +91,7 @@ function IsHeader({ setOpen }) {
               </Menu.Dropdown>
             </Menu>
           )}
-          {isLogin && cookies.user_type === "buyer" && (
-            <ActionIcon
-              variant="transparent"
-              color="cyan"
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <IconShoppingCart size="50px" />
-            </ActionIcon>
-          )}
+          {isLogin && cookies.user_type === "buyer" && <Cart />}
           <LightDark />
         </Group>
       </Group>

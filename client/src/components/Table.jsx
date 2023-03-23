@@ -40,7 +40,9 @@ const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
         <thead>
           <tr>
             {head.map((item, index) => {
-              return <th key={index}>{item}</th>;
+              if (item !== "false") {
+                return <th key={index}>{item}</th>;
+              }
             })}
           </tr>
         </thead>

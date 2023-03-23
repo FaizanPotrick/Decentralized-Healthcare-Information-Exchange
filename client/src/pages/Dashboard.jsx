@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import { Container } from "@mantine/core";
 import Header from "../components/Header";
 import Table from "../components/Table";
-import Cart from "../components/Cart";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -16,7 +15,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [reFetched, setReFetched] = useState(false);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!isLogin) {
@@ -61,7 +59,7 @@ const Dashboard = () => {
             minHeight: "100vh",
           }}
         >
-          <Header setOpen={setOpen} />
+          <Header />
           <Container size="lg" className="mt-20">
             {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Redeem
@@ -109,7 +107,6 @@ const Dashboard = () => {
           </Container>
         </div>
       )}
-      <Cart open={open} setOpen={setOpen} />
     </>
   );
 };
