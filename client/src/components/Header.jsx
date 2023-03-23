@@ -4,7 +4,6 @@ import React, { useContext } from "react";
 import LightDark from "./LightDark";
 import {
   Title,
-  Text,
   Button,
   Menu,
   Header,

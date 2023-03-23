@@ -1,35 +1,98 @@
 import React from "react";
-import classNames from "classnames";
+import {
+  createStyles,
+  Group,
+  Paper,
+  SimpleGrid,
+  Text,
+  rem,
+} from "@mantine/core";
+import {
+  IconDiscount2,
+  IconReportMedical,
+  IconExchange,
+  IconFileDollar,
+} from "@tabler/icons-react";
 
-const RoundIcon = ({
-  icon: Icon,
-  iconColorClass = "text-purple-600",
-  bgColorClass = "bg-purple-100",
-  className,
-}) => {
-  const cls = classNames(iconColorClass, bgColorClass, className);
-  return (
-    <div className={cls}>
-      <Icon className="w-5 h-5" />
-    </div>
-  );
+const useStyles = createStyles((theme) => ({
+  root: {
+    padding: `calc(${theme.spacing.xl} * 1.5)`,
+  },
+  value: {
+    fontSize: rem(30),
+    fontWeight: 500,
+    lineHeight: 1,
+  },
+  icon: {
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[3]
+        : theme.colors.gray[4],
+  },
+  title: {
+    fontWeight: 700,
+    textTransform: "uppercase",
+  },
+}));
+
+const icons = {
+  report: IconReportMedical,
+  sale: IconDiscount2,
+  exchange: IconExchange,
+  coin: IconFileDollar,
 };
 
-const InfoCard = ({ title, value, icon }) => {
+export default function StatsGrid({ data }) {
+  const { classes } = useStyles();
   return (
-    <div className="flex items-center max-w-sm w-full border rounded-lg py-3 px-4">
-      <RoundIcon
-        icon={icon}
-        iconColorClass="text-orange-500"
-        bgColorClass="bg-orange-100"
-        className="mr-4 p-3 rounded-full"
-      />
-      <div>
-        <p className="mb-2 text-sm font-medium text-gray-600">{title}</p>
-        <p className="text-lg font-semibold text-gray-700">{value}</p>
-      </div>
+    <div
+      className={classes.root}
+      style={{
+        paddingLeft: "0px",
+      }}
+    >
+      <SimpleGrid
+        cols={4}
+        breakpoints={[
+          { maxWidth: "md", cols: 2 },
+          { maxWidth: "xs", cols: 1 },
+        ]}
+      >
+        {data.map((stat) => {
+          const Icon = icons[stat.icon];
+          return (
+            <Paper
+              withBorder
+              p="md"
+              radius="md"
+              key={stat.title}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                boxShadow: "0 0 4px 0 rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <Group
+                position="apart"
+                sx={{
+                  display: "flex",
+                  alignItems: "start",
+                  flexDirection: "column",
+                }}
+              >
+                <Text size="xs" color="dimmed" className={classes.title}>
+                  {stat.title}
+                </Text>
+                <Text className={classes.value} mt={10}>
+                  {stat.value}
+                </Text>
+              </Group>
+              <Icon className={classes.icon} size="2.6rem" stroke={1} />
+            </Paper>
+          );
+        })}
+      </SimpleGrid>
     </div>
   );
-};
-
-export default InfoCard;
+}
