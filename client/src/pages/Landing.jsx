@@ -90,7 +90,9 @@ export default function Landing() {
           </Anchor>
           <Group>
             <LightDark />
-            <Button color="cyan">Go To Exchange</Button>
+            <Button color="cyan" component="a" href="/reports">
+              Go To Exchange
+            </Button>
           </Group>
         </Group>
       </Header>

@@ -60,7 +60,7 @@ const Dashboard = () => {
           }}
         >
           <Header />
-          <Container size="lg" className="mt-20">
+          <Container size="lg">
             {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Redeem
         </Link> */}

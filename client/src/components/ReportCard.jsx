@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import { Group, Image, Text, Card, Badge, ActionIcon } from "@mantine/core";
+import { IconShoppingCartPlus } from "@tabler/icons-react";
 import { StateContext } from "../context/StateContext";
+import React, { useContext } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
@@ -36,77 +38,113 @@ const ReportCard = ({
     }
   };
   return (
-    <div className="relative flex flex-col justify-around h-full w-full max-w-md border border-gray-200/80 shadow-lg rounded-lg p-3 md:p-4 bg-white">
-      <div className="flex justify-between items-start">
-        <div className="flex flex-col">
-          <div className="relative text-slate-900 text-xl md:text-2xl font-semibold">
-            {name}
-            <span className="uppercase absolute bottom-3 text-xs font-semibold px-1.5 rounded shadow bg-blue-200 text-blue-800 ml-1">
-              {type}
-            </span>
-          </div>
-          <div className="text-sm md:text-base text-slate-500/70">
-            {patient_name} - {patient_age}
-          </div>
-        </div>
-        <img
-          className="rounded-t-lg w-20 h-20"
-          src={type == "pdf" ? "x-ray.png" : "checkup.png"}
-          alt="product"
-        />
-      </div>
-      <div className="flex gap-2 my-2 md:my-2.5 font-semibold capitalize">
-        <div className=" bg-purple-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 ">
-          {disease.split(",")[0]}
-        </div>
-        {disease.split(",")[1] && (
-          <div className="bg-purple-200 rounded-lg shadow text-xs md:text-sm px-3.5 py-1 text-gray-700">
-            {disease.split(",")[1]}
-          </div>
-        )}
-      </div>
-      <div className="flex items-center justify-between">
-        <div className="text-xl md:text-2xl font-bold text-gray-900">
-          ₹{price}
-        </div>
-        {/* <div className="rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase">
-          {criticality}
-        </div> */}
-
-        <div
-          className={`rounded-lg shadow text-xs md:text-sm font-medium px-3.5 py-0.5 text-black uppercase ${
-            criticality === "high"
-              ? "bg-red-200"
-              : criticality === "medium"
-              ? "bg-yellow-200"
-              : "bg-green-200"
-          }`}
-        >
-          {criticality}
-        </div>
-
-        {cookies.user_type == "buyer" && isLogin && (
-          <button
-            onClick={AddToCart}
-            className="rounded-full bg-yellow-50 text-black border border-gray-300/30 shadow w-10 h-10 hover:scale-110 duration-300 absolute -top-2.5 -right-2.5"
+    <Card
+      radius="md"
+      withBorder
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "10px",
+        width: "400px",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
+        <Group position="apart">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="h-7 w-7 stroke-current m-auto"
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+              }}
             >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-          </button>
-        )}
+              <Text weight={500}>{name}</Text>
+              <Badge color="pink" variant="light" size="sm">
+                {type}
+              </Badge>
+            </div>
+            <Text weight={500} color="dimmed" size="sm">
+              {patient_name} - {patient_age}
+            </Text>
+          </div>
+          <Image
+            src={type == "pdf" ? "x-ray.png" : "checkup.png"}
+            height={60}
+            width={60}
+            alt="Norway"
+          />
+        </Group>
+        <Group position="apart" mt="xs">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <Badge c="cyan">{disease.split(",")[0]}</Badge>
+            {disease.split(",")[1] && (
+              <Badge c="cyan">{disease.split(",")[1]}</Badge>
+            )}
+          </div>
+        </Group>
+        <Group position="apart" mt="xs">
+          <Text weight={600} size="lg">
+            ₹{price}
+          </Text>
+          <Badge
+            c={
+              criticality === "high"
+                ? "red"
+                : criticality === "medium"
+                ? "yellow"
+                : "green"
+            }
+            color={
+              criticality === "high"
+                ? "red"
+                : criticality === "medium"
+                ? "yellow"
+                : "green"
+            }
+          >
+            {criticality}
+          </Badge>
+        </Group>
+        <Text size="xs" c="dimmed">
+          {date.substring(0, 10)}
+        </Text>
       </div>
-      <div className="text-xs text-slate-500/70">{date.substring(0, 10)}</div>
-    </div>
+      {cookies.user_type == "buyer" && isLogin && (
+        <ActionIcon
+          onClick={AddToCart}
+          c="teal"
+          sx={{
+            position: "absolute",
+            bottom: "4px",
+            right: "4px",
+            "&:hover": {
+              color: "gray",
+              border: "1px solid gray",
+            },
+          }}
+          color="teal"
+          variant="outline"
+        >
+          <IconShoppingCartPlus size="20px" />
+        </ActionIcon>
+      )}
+    </Card>
   );
 };
 
