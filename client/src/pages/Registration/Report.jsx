@@ -159,10 +159,7 @@ const Report = () => {
                     })}
                     value={form.values.patient_id}
                     onChange={(event) =>
-                      form.setFieldValue(
-                        "patient_id",
-                        event
-                      )
+                      form.setFieldValue("patient_id", event)
                     }
                     required
                   />
@@ -197,6 +194,7 @@ const Report = () => {
                 <Select
                   label="Type of Report"
                   placeholder="Select Type of Report"
+                  disabled
                   data={[
                     { value: "pdf", label: "PDF" },
                     { value: "image", label: "Image" },
@@ -249,7 +247,15 @@ const Report = () => {
                   label="Upload Report"
                   placeholder="Upload Report"
                   value={reportFile}
-                  onChange={setReportFile}
+                  onChange={(event) => {
+                    if (event.type === "application/pdf") {
+                      form.setFieldValue("type", "pdf");
+                    } else {
+                      form.setFieldValue("type", "image");
+                    }
+                    setReportFile(event);
+                  }}
+                  accept="image/*, application/pdf"
                   required
                 />
               </Stack>
