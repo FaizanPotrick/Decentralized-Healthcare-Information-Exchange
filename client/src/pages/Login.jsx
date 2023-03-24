@@ -92,8 +92,8 @@ const Login = () => {
               setLoading(true);
               try {
                 await axios.put("/api/login", val);
+                await setIsLogin(true);
                 form.reset();
-                setIsLogin(true);
                 navigate("/dashboard");
               } catch (error) {
                 setAlert({

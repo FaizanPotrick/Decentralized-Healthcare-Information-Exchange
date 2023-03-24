@@ -85,13 +85,19 @@ const User = ({ type_of_user }) => {
         <LightDark />
       </Group>
       <Container my="auto">
-        <Paper radius="md" p="xl" withBorder w={"34rem"} sx={(theme)=>{
-          return {
-            [theme.fn.smallerThan("xs")]: {
-              width: 340,
-            },
-          }
-        }}>
+        <Paper
+          radius="md"
+          p="xl"
+          withBorder
+          w={"34rem"}
+          sx={(theme) => {
+            return {
+              [theme.fn.smallerThan("xs")]: {
+                width: 340,
+              },
+            };
+          }}
+        >
           <Title
             align="center"
             mb={20}
@@ -117,8 +123,8 @@ const User = ({ type_of_user }) => {
               }
               try {
                 await axios.post(`/api/registration/${type_of_user}`, val);
+                await setIsLogin(true);
                 form.reset();
-                setIsLogin(true);
                 navigate("/dashboard");
               } catch (error) {
                 setAlert({

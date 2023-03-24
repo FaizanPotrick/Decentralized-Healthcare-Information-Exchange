@@ -86,7 +86,12 @@ const Cart = () => {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="Shopping cart">
+      <Drawer
+        opened={opened}
+        onClose={close}
+        title="Shopping cart"
+        position="right"
+      >
         <div
           style={{
             display: "flex",

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import InfoCard from "../components/InfoCard";
 import Report from "./Registration/Report";
 import { useCookies } from "react-cookie";
-import { Container } from "@mantine/core";
+import { Container, Text } from "@mantine/core";
 import Header from "../components/Header";
 import Table from "../components/Table";
 import axios from "axios";
@@ -64,29 +64,65 @@ const Dashboard = () => {
             {/* <Link className="text-purple-600 hover:underline ml-1" to="/login">
           Redeem
         </Link> */}
+            <Text
+              sx={{
+                marginTop: "2rem",
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "end",
+                marginBottom: "-20px",
+              }}
+              size={30}
+              c="dimmed"
+              weight={600}
+            >
+              Welcome{" "}
+              <Text
+                sx={{
+                  marginLeft: "10px",
+                  textTransform: "capitalize",
+                }}
+                size={30}
+                c="cyan"
+                weight={700}
+              >
+                {cookies.user_type}
+              </Text>
+              ,
+            </Text>
             <InfoCard
-              data={[
-                {
-                  title: "Available Reports",
-                  value: reports.length,
-                  icon: "report",
-                },
-                {
-                  title: "Total Report For Sale",
-                  value: reports.filter((item) => item.price).length,
-                  icon: "sale",
-                },
-                {
-                  title: "Total Report Sold",
-                  value: "0",
-                  icon: "exchange",
-                },
-                {
-                  title: "Revenue",
-                  value: "0",
-                  icon: "coin",
-                },
-              ]}
+              data={
+                cookies.user_type === "patient"
+                  ? [
+                      {
+                        title: "Available Reports",
+                        value: reports.length,
+                        icon: "report",
+                      },
+                      {
+                        title: "Total Report For Sale",
+                        value: reports.filter((item) => item.price).length,
+                        icon: "sale",
+                      },
+                      {
+                        title: "Total Report Sold",
+                        value: "0",
+                        icon: "exchange",
+                      },
+                      {
+                        title: "Revenue",
+                        value: "0",
+                        icon: "coin",
+                      },
+                    ]
+                  : [
+                      {
+                        title: "Total Report Purchase",
+                        value: reports.length,
+                        icon: "sale",
+                      },
+                    ]
+              }
             />
             <Table
               head={[
