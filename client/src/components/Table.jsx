@@ -32,7 +32,7 @@ const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
     <div
       style={{
         padding: "20px 10px",
-        borderRadius: "15px",
+        borderRadius: "12px",
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
       }}
     >

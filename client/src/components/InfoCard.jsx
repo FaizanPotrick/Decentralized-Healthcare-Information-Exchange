@@ -6,6 +6,7 @@ import {
   SimpleGrid,
   Text,
   rem,
+  Badge,
 } from "@mantine/core";
 import {
   IconDiscount2,
@@ -84,9 +85,27 @@ export default function StatsGrid({ data }) {
                 <Text size="xs" color="dimmed" className={classes.title}>
                   {stat.title}
                 </Text>
-                <Text className={classes.value} mt={10}>
-                  {stat.value}
-                </Text>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text className={classes.value}>{stat.value}</Text>
+                  {stat.icon === "coin" && (
+                    <Badge
+                      c="cyan"
+                      ml={20}
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                      radius="sm"
+                    >
+                      Redeem
+                    </Badge>
+                  )}
+                </div>
               </Group>
               <Icon className={classes.icon} size="2.6rem" stroke={1} />
             </Paper>
