@@ -34,13 +34,19 @@ const Reports = () => {
                 reports.filter((report) => {
                   return (
                     report.name.toLowerCase().includes(value.toLowerCase()) ||
+                    report.patient.name
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    report.patient_age.toString().includes(value) ||
                     report.disease
                       .toLowerCase()
                       .includes(value.toLowerCase()) ||
                     report.type.toLowerCase().includes(value.toLowerCase()) ||
                     report.criticality
                       .toLowerCase()
-                      .includes(value.toLowerCase())
+                      .includes(value.toLowerCase()) ||
+                    report.date.toLowerCase().includes(value.toLowerCase()) ||
+                    report.price.toString().includes(value)
                   );
                 })
               );
