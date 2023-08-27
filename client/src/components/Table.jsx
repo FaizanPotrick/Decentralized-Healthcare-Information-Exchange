@@ -19,11 +19,8 @@ const IsTable = ({ head, value, setReFetched, reFetched, cookies }) => {
       const { data } = await axios.get(
         `/api/report/${cookies.user_type}/cid/${report_id}`
       );
-      if (!data) {
-        console.log("NO CID");
-        return;
-      }
-      window.location.href = `https://ipfs.io/ipfs/${data.split("ipfs://")[1]}`;
+      if (!data) return console.log("NO CID");
+      window.open(`https://ipfs.io/ipfs/${data.split("ipfs://")[1]}`, "_blank");
     } catch (error) {
       console.log(error);
     }
